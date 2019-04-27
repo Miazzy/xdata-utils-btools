@@ -1,9 +1,9 @@
 {
   "name": "js-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A collection of js function libraries",
   "scripts": {
-    "lint": "eslint dist/xe-utils.js test/**/*.js src/**/*.js",
+    "lint": "eslint dist/js-tools.js test/**/*.js src/**/*.js",
     "unit": "jest",
     "test": "npm run lint && npm run unit"
   },
