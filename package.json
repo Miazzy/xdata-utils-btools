@@ -1,9 +1,9 @@
 {
-  "name": "js-tools",
+  "name": "bes-jstools",
   "version": "1.0.1",
   "description": "A collection of js function libraries",
   "scripts": {
-    "lint": "eslint dist/js-tools.js test/**/*.js src/**/*.js",
+    "lint": "eslint dist/bes-jstools.js test/**/*.js src/**/*.js",
     "unit": "jest",
     "test": "npm run lint && npm run unit"
   },
@@ -26,17 +26,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BothEyes1993/Js-Tools.git"
+    "url": "git+https://github.com/BothEyes1993/bes-jstools.git"
   },
   "keywords": [
-    "js-tools",
+    "bes-jstools",
     "js-utils",
     "tools"
   ],
   "author": "BothEyes1993",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BothEyes1993/Js-Tools/issues"
+    "url": "https://github.com/BothEyes1993/bes-jstools/issues"
   },
-  "homepage": "https://github.com/BothEyes1993/Js-Tools#readme"
+  "homepage": "https://github.com/BothEyes1993/bes-jstools#readme"
 }
