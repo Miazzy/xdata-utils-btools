@@ -1,0 +1,42 @@
+{
+  "name": "js-tools",
+  "version": "1.0.0",
+  "description": "A collection of js function libraries",
+  "scripts": {
+    "lint": "eslint dist/xe-utils.js test/**/*.js src/**/*.js",
+    "unit": "jest",
+    "test": "npm run lint && npm run unit"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.1.0",
+    "markdown-doctest": "^0.9.1"
+  },
+  "main": "index.js",
+  "files": [
+    "src",
+    "types",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BothEyes1993/Js-Tools.git"
+  },
+  "keywords": [
+    "js-tools",
+    "js-utils",
+    "tools"
+  ],
+  "author": "BothEyes1993",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BothEyes1993/Js-Tools/issues"
+  },
+  "homepage": "https://github.com/BothEyes1993/Js-Tools#readme"
+}
