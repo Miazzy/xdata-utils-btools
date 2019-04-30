@@ -1,6 +1,6 @@
 {
   "name": "bes-jstools",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A collection of js function libraries",
   "scripts": {
     "lint": "eslint test/**/*.js src/**/*.js",
@@ -23,7 +23,6 @@
   "main": "index.js",
   "files": [
     "src",
-    "types",
     "dist"
   ],
   "repository": {
