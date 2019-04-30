@@ -1,6 +1,6 @@
 {
   "name": "bes-jstools",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A collection of js function libraries",
   "scripts": {
     "lint": "eslint test/**/*.js src/**/*.js",
@@ -21,10 +21,6 @@
     "rollup-plugin-uglify": "^6.0.2"
   },
   "main": "index.js",
-  "files": [
-    "src",
-    "dist"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BothEyes1993/bes-jstools.git"
