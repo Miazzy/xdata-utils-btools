@@ -197,4 +197,4 @@ import BesUtils from 'bes-jstools'
   * [parseUrl ( url ) 解析 URL 参数](#parseurl--url--解析-url-参数)
   * [getBaseURL ( ) 获取上下文路径](#getbaseurl---获取上下文路径)
   * [cookie ( name, value, options ) Cookie 操作函数](#cookie--name-value-options--cookie-操作函数)
-  * [copyContent ( ) 获取上下文路径]复制内容到系统粘贴板 (#cookie--name-value-options--cookie-复制内容到系统粘贴板)
+  * [copyContent ( ) 获取上下文路径]复制内容到系统粘贴板(#cookie--name-value-options--cookie-复制内容到系统粘贴板)
