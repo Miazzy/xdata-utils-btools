@@ -58,8 +58,41 @@ function browse () {
   return result
 }
 
+/**
+  * 复制内容到系统粘贴板
+  *
+  */
+var doc = window.document
+function getContainer () {
+  var $copy = doc.getElementById('$BESCopy')
+  if (!$copy) {
+    $copy = doc.createElement('input')
+    $copy.id = '$BESCopy'
+    $copy.style['width'] = '48px'
+    $copy.style['height'] = '12px'
+    $copy.style['position'] = 'fixed'
+    $copy.style['z-index'] = '0'
+    $copy.style['left'] = '-500px'
+    $copy.style['top'] = '-500px'
+    doc.body.appendChild($copy)
+  }
+  return $copy
+}
+function copyContent (content) {
+  var $copy = getContainer()
+  var value = content === null || content === undefined ? '' : '' + content
+  try {
+    $copy.value = value
+    $copy.focus()
+    $copy.setSelectionRange(0, value.length)
+    return doc.execCommand('copy', true)
+  } catch (e) {}
+  return false
+}
+
 var browseExports = {
-  browse: browse
+  browse: browse,
+  copyContent: copyContent
 }
 
 module.exports = browseExports
