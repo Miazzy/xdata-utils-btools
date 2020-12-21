@@ -5,21 +5,19 @@
 
 ## Browser Support
 
-![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_7-8/internet-explorer_7-8_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
---- | --- | --- | --- | --- | --- |
+| IE | Edge | Chrome | Firefox | Opera | Safari |
 7+ ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 6.1+ ✔ |
-
 
 ## Installing
 
 ```shell
-npm install bes-jstools --save
+npm install xdata-utils-btools --save
 ```
 
 Using nodejs
 
 ```javascript
-const BesUtils = require('bes-jstools')
+const BTools = require('xdata-utils-btools')
 ```
 
 Get on [unpkg](https://unpkg.com/bes-jstools/dist/bes-utils.min.js) 
@@ -31,12 +29,10 @@ Get on [unpkg](https://unpkg.com/bes-jstools/dist/bes-utils.min.js)
 ### ES6 Module import
 
 ```javascript
-import BesUtils from 'bes-jstools'
-
+import BTools from 'xdata-utils-btools'
 ```
 
 ## API
-
 
 * *基础函数*
   * [isNaN (val) 判断是否非数值](#isnan-val-判断是否非数值)
