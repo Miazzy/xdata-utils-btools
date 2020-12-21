@@ -6,6 +6,7 @@
 ## Browser Support
 
 | IE | Edge | Chrome | Firefox | Opera | Safari |
+|  ----  | ----  |  ----  | ----  |  ----  | ----  |
 7+ ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 6.1+ ✔ |
 
 ## Installing
