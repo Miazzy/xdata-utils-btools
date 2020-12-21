@@ -1,12 +1,5 @@
-# bes-jstools
+# btools
 
-
-
-[![npm version](https://img.shields.io/npm/v/bes-jstools.svg?style=flat-square)](https://www.npmjs.org/package/bes-jstools)
-[![npm build](https://travis-ci.org/BothEyes1993/bes-jstools.svg?branch=master)](https://travis-ci.org/BothEyes1993/bes-jstools)
-[![npm downloads](https://img.shields.io/npm/dm/bes-jstools.svg?style=flat-square)](http://npm-stat.com/charts.html?package=bes-jstools)
-[![gzip size: JS](http://img.badgesize.io/https://unpkg.com/bes-jstools/dist/bes-utils.min.js?compression=gzip&label=gzip%20size:%20JS)](https://unpkg.com/bes-jstools/dist/bes-utils.min.js?compression=gzip&label=gzip%20size:%20JS)
-[![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/BothEyes1993/bes-jstools/blob/master/LICENSE)
 
 100多个基础常用JS函数和各种数据转换处理集合大全，此工具包是在 outils 的基础上,加上个人平时收集的代码片段进行的二次整合
 
