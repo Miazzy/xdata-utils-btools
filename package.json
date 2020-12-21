@@ -1,44 +1,44 @@
 {
-  "name": "bes-jstools",
-  "version": "1.1.7",
-  "description": "A collection of js function libraries",
-  "scripts": {
-    "lint": "eslint test/**/*.js src/**/*.js",
-    "jest": "jest",
-    "test": "npm run lint && npm run jest"
-  },
-  "devDependencies": {
-    "eslint": "^5.15.1",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "jest": "^24.1.0",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-node-resolve": "^4.2.3",
-    "rollup-plugin-uglify": "^6.0.2"
-  },
-  "main": "index.js",
-  "unpkg": "dist/bes-utils.min.js",
-  "files": [
-    "src",
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BothEyes1993/bes-jstools.git"
-  },
-  "keywords": [
-    "bes-jstools",
-    "js-utils",
-    "tools"
-  ],
-  "author": "BothEyes1993",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/BothEyes1993/bes-jstools/issues"
-  },
-  "homepage": "https://github.com/BothEyes1993/bes-jstools#readme"
+    "name": "btools",
+    "version": "1.1.7",
+    "description": "A collection of js function libraries",
+    "scripts": {
+        "lint": "eslint test/**/*.js src/**/*.js",
+        "jest": "jest",
+        "test": "npm run lint && npm run jest"
+    },
+    "devDependencies": {
+        "eslint": "^5.15.1",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-friendly-formatter": "^4.0.1",
+        "eslint-plugin-import": "^2.16.0",
+        "eslint-plugin-node": "^8.0.1",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "jest": "^24.1.0",
+        "rollup-plugin-commonjs": "^9.3.4",
+        "rollup-plugin-node-resolve": "^4.2.3",
+        "rollup-plugin-uglify": "^6.0.2"
+    },
+    "main": "index.js",
+    "unpkg": "dist/btools.umd.js",
+    "files": [
+        "src",
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Miazzy"
+    },
+    "keywords": [
+        "btools",
+        "utils",
+        "tools"
+    ],
+    "author": "YunWisdom",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Miazzy/bes-jstools/issues"
+    },
+    "homepage": "https://github.com/Miazzy"
 }

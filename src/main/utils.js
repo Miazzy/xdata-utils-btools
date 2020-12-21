@@ -1,5 +1,5 @@
 'use strict'
 
-function BesUtils () {}
+function Utils() {}
 
-module.exports = BesUtils
+module.exports = Utils

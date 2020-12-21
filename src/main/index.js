@@ -1,30 +1,29 @@
 'use strict'
 
-var BesUtils = require('./utils')
-var setupDefaults = require('./setup')
-var methodExports = require('../object')
+var Utils = require('./utils');
+var setupDefaults = require('./setup');
+var methodExports = require('../object');
 
 /**
- * functions of mixing
- *
+ * @function mixing functions 
  * @param {Object} methods
  */
-BesUtils.mixin = function (methods) {
-  methodExports.each(methods, function (fn, name) {
-    BesUtils[name] = methodExports.isFunction(fn) && fn._c !== false ? function () {
-      var result = fn.apply(BesUtils.$context, arguments)
-      BesUtils.$context = null
-      return result
-    } : fn
-  })
-  return BesUtils
+Utils.mixin = function(methods) {
+    methodExports.each(methods, function(fn, name) {
+        Utils[name] = methodExports.isFunction(fn) && fn._c !== false ? function() {
+            var result = fn.apply(Utils.$context, arguments)
+            Utils.$context = null
+            return result
+        } : fn
+    })
+    return Utils;
 }
 
-BesUtils.setup = function (options) {
-  methodExports.assign(setupDefaults, options)
+Utils.setup = function(options) {
+    methodExports.assign(setupDefaults, options);
 }
 
-BesUtils.mixin(methodExports)
+Utils.mixin(methodExports);
 
-module.exports = BesUtils
-module.exports.default = BesUtils
+module.exports = Utils;
+module.exports.default = Utils;
