@@ -12,25 +12,25 @@
 ## Installing
 
 ```shell
-npm install xdata-utils-btools --save
+npm install betools --save
 ```
 
 Using nodejs
 
 ```javascript
-const BTools = require('xdata-utils-btools')
+const betools = require('xdata-utils-btools')
 ```
 
 Get on [jsdelivr](https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v0.0.1/dist/btools.min.js) 
 
 ```HTML
-<script src="https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v0.0.1/dist/btools.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v1.0.0/dist/betools.min.js"></script>
 ```
 
 ### ES6 Module import
 
 ```javascript
-import BTools from 'xdata-utils-btools'
+import betools from 'xdata-utils-btools'
 ```
 
 ## API
