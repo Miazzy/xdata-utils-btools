@@ -20,10 +20,10 @@ Using nodejs
 const BTools = require('xdata-utils-btools')
 ```
 
-Get on [unpkg](https://unpkg.com/bes-jstools/dist/bes-utils.min.js) 
+Get on [jsdelivr](https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v0.0.1/dist/btools.min.js) 
 
 ```HTML
-<script src="https://unpkg.com/bes-jstools/dist/bes-utils.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v0.0.1/dist/btools.min.js"></script>
 ```
 
 ### ES6 Module import
