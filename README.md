@@ -18,19 +18,22 @@ npm install betools --save
 Using nodejs
 
 ```javascript
-const betools = require('xdata-utils-btools')
+const betools = require('betools')
 ```
 
-Get on [jsdelivr](https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v0.0.1/dist/btools.min.js) 
+Get on [jsdelivr](https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v1.0.0/dist/betools.min.js) 
 
 ```HTML
 <script src="https://cdn.jsdelivr.net/gh/Miazzy/xdata-utils-btools@v1.0.0/dist/betools.min.js"></script>
+<script>
+  Betools.isArray([]);
+</script>
 ```
 
 ### ES6 Module import
 
 ```javascript
-import betools from 'xdata-utils-btools'
+import betools from 'betools'
 ```
 
 ## API
