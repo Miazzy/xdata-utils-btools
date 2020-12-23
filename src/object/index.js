@@ -8,6 +8,7 @@ var dateExports = require('./date')
 var locatExports = require('./locat')
 var numberExports = require('./number')
 var stringExports = require('./string')
+var constantExports = require('./constant')
 var methodExports = {}
 
 Object.assign(
@@ -19,7 +20,8 @@ Object.assign(
     dateExports,
     locatExports,
     numberExports,
-    stringExports
+    stringExports,
+    constantExports
 );
 
 module.exports = methodExports
