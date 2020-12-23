@@ -1,24 +1,21 @@
 var constant = require('./constant')
 
-class storage {
-
-    /** 构造函数 */
-    constructor() {
-        try {
-            if (localforage) {
-                localforage.config({
-                    driver: localforage.WEBSQL,
-                    name: 'cache',
-                    version: 1.0,
-                    size: 4294967296,
-                    storeName: 'keyvaluepairs',
-                    description: ''
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        }
+try {
+    if (localforage) {
+        localforage.config({
+            driver: localforage.WEBSQL,
+            name: 'cache',
+            version: 1.0,
+            size: 4294967296,
+            storeName: 'keyvaluepairs',
+            description: ''
+        });
     }
+} catch (error) {
+    console.log(error);
+}
+
+const storage = {
 
     /**
      * @description Set storage
@@ -49,7 +46,7 @@ class storage {
         } catch (error) {
             console.log(error);
         }
-    };
+    },
 
     /**
      * @description Get storage
@@ -76,7 +73,7 @@ class storage {
             console.log(error);
         }
         return content;
-    };
+    },
 
     /**
      * @description clearStore storage
@@ -90,7 +87,7 @@ class storage {
         window.localStorage.removeItem(`${name}_expire`);
         localforage.removeItem(name);
         localforage.removeItem(`${name}_expire`);
-    };
+    },
 
     /**
      * @description Clear all storage
@@ -109,7 +106,7 @@ class storage {
         } else {
             window.localStorage.clear();
         }
-    };
+    },
 
     /**
      * @description Set storage
@@ -151,7 +148,7 @@ class storage {
                 console.log(error);
             }
         }
-    };
+    },
 
     /**
      * @description Get storage
@@ -183,7 +180,7 @@ class storage {
             console.log(error);
         }
         return content;
-    };
+    },
 
     /**
      * @description Set storage
@@ -214,7 +211,7 @@ class storage {
             }
 
         }
-    };
+    },
 
     /**
      * @description Get storage
@@ -243,7 +240,7 @@ class storage {
 
         return content;
 
-    };
+    },
 
     /**
      * @description Clear storage
@@ -256,19 +253,19 @@ class storage {
             localforage.removeItem(name);
             localforage.removeItem(`${name}_expire`);
         }
-    };
+    },
 
     getToken() {
         return getStore(constant.TOKEN_KEY)
-    }
+    },
 
     setToken(token) {
         return setStore(constant.TOKEN_KEY, token, 86400 * 30)
-    }
+    },
 
     removeToken() {
         return clearStore(constant.TOKEN_KEY)
-    }
+    },
 
     async clearLoginInfo() {
         try {
@@ -285,13 +282,12 @@ class storage {
         } catch (error) {
             console.log(error);
         }
-    }
+    },
 
 }
 
-
 var storageExports = {
-    storage: new storage(),
+    storage,
 }
 
 module.exports = storageExports
