@@ -1,7 +1,7 @@
 //定义配置文件对象
 window.BECONFIG = {};
 //Vue服务器顶级域名
-window.BECONFIG['topdomain'] = window.BECONFIG['topDomain'] = window.location.hostname.split('.').slice(-2).join('.');
+window.BECONFIG['topdomain'] = window.BECONFIG['topDomain'] = window._CONFIG && window._CONFIG['topDomain'] ? window._CONFIG['topDomain'] : window.location.host.split('.').slice(-2).join('.');
 //Vue服务器域名
 window.BECONFIG['domain'] = 'https://www.' + window.BECONFIG['topdomain'];
 //Vue-REST-API服务器域名
