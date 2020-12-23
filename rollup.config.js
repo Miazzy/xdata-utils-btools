@@ -22,8 +22,6 @@ export default {
             exclude: 'node_modules/**', // 防止打包node_modules下的文件
             runtimeHelpers: true, // 使plugin-transform-runtime生效
         }),
-        // eslint(),
-        // terser(),
-        uglify()
+        // uglify()
     ]
 }

@@ -9,6 +9,9 @@ var locatExports = require('./locat')
 var numberExports = require('./number')
 var stringExports = require('./string')
 var constantExports = require('./constant')
+var fileExports = require('./file')
+var toolsExports = require('./tools');
+// var storageExports = require('./storage');
 var methodExports = {}
 
 Object.assign(
@@ -21,7 +24,10 @@ Object.assign(
     locatExports,
     numberExports,
     stringExports,
-    constantExports
+    constantExports,
+    fileExports,
+    toolsExports,
+    // storageExports
 );
 
 module.exports = methodExports
