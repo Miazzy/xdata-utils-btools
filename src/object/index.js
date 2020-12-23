@@ -15,7 +15,9 @@ var storageExports = require('./storage');
 var queryExports = require('./query');
 var manageExports = require('./manage');
 var taskExports = require('./task');
-// var workconfigExports = require('./workconfig');
+var workconfigExports = require('./workconfig');
+var workflowExports = require('./workflow');
+var wflowprocessExports = require('./wflow.process');
 var methodExports = {};
 
 Object.assign(
@@ -35,7 +37,8 @@ Object.assign(
     queryExports,
     manageExports,
     taskExports,
-    // workconfigExports
+    workconfigExports,
+    workflowExports
 );
 
 module.exports = methodExports
