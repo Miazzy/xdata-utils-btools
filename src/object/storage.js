@@ -68,7 +68,7 @@ const storage = {
             }
         }
         try {
-            if (typeof content === 'string') {
+            if (typeof content === 'string' && /^[\{|\[](.*)[\}\]]$/.test(content)) {
                 content = JSON.parse(content);
             }
         } catch (error) {
@@ -175,7 +175,7 @@ const storage = {
             }
         }
         try {
-            if (typeof content === 'string') {
+            if (typeof content === 'string' && /^[\{|\[](.*)[\}\]]$/.test(content)) {
                 content = JSON.parse(content);
             }
         } catch (error) {
@@ -233,7 +233,7 @@ const storage = {
         }
 
         try {
-            if (typeof content === 'string') {
+            if (typeof content === 'string' && /^[\{|\[](.*)[\}\]]$/.test(content)) {
                 content = JSON.parse(content);
             }
         } catch (error) {
