@@ -660,7 +660,13 @@ const wflowprocess = {
 
     },
 
-    // 通知HR（人力薪资相关专职人员查看数据）
+    /**
+     * 通知HR（人力薪资相关专职人员查看数据）
+     * @param {*} user_group_ids 
+     * @param {*} userinfo 
+     * @param {*} value 
+     * @param {*} receiveURL 
+     */
     async handleNotifyHR(user_group_ids, userinfo, value, receiveURL) {
         try {
             await superagent.get(`${window.requestAPIConfig.restapi}/api/v1/weappms/${user_group_ids}/亲爱的同事，员工‘${userinfo}’提交了的奖罚申请流程，请到奖惩申请服务进行流程审批操作！?type=reward&rurl=${receiveURL}`)
