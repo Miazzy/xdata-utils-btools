@@ -12,6 +12,7 @@ var constantExports = require('./constant');
 var fileExports = require('./file');
 var toolsExports = require('./tools');
 var storageExports = require('./storage');
+var announceExports = require('./announce');
 var queryExports = require('./query');
 var manageExports = require('./manage');
 var taskExports = require('./task');
@@ -34,12 +35,13 @@ Object.assign(
     fileExports,
     toolsExports,
     storageExports,
+    announceExports,
     queryExports,
     manageExports,
     taskExports,
     workconfigExports,
     workflowExports,
-    wflowprocessExports
+    wflowprocessExports,
 );
 
 module.exports = methodExports

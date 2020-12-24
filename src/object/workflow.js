@@ -557,4 +557,4 @@ var workflowExports = {
     workflow,
 }
 
-module.exports = workflowExports
+module.exports = workflowExports;
