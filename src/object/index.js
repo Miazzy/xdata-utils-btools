@@ -38,7 +38,8 @@ Object.assign(
     manageExports,
     taskExports,
     workconfigExports,
-    workflowExports
+    workflowExports,
+    wflowprocessExports
 );
 
 module.exports = methodExports
