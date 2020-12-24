@@ -1,6 +1,6 @@
 var { storage } = require('./storage');
 var { tools } = require('./tools');
-var { constant } = require('./constant');
+var { contact } = require('./contact');
 
 const query = {
 
@@ -506,6 +506,52 @@ const query = {
             console.log(err);
         }
     },
+
+    /**
+     * 查询数据
+     * @param {*} tableName
+     * @param {*} id
+     */
+    async queryVMessages(wxid, username, maxId = 0) {
+
+        try {
+            const tableName = 'v_messages'; //大写转小写
+            var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(team,like,~${wxid}~)&_sort=-id&_p=0&_size=100`; //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
+            var cache = storage.getStore(`sys_message_cache##v2@${tableName}&wxid${wxid}}&maxid${maxId}`); //获取缓存中的数据
+            if (typeof cache != 'undefined' && cache != null && cache != '') { //返回缓存值
+                return cache;
+            }
+
+            var res = await superagent.get(queryURL).set('accept', 'json');
+
+            if (res.body != null && res.body.length > 0) {
+
+                for (let item of res.body) {
+
+                    item.mid = item.id;
+                    item.newMsgCount = 1;
+                    item.quiet = item.quiet == 'true' ? true : false;
+                    item.read = item.read_ == 'true' ? true : false;
+                    item.type = 'friend';
+                    item.heuserid = item.groupid.replace(wxid, '').replace(username, '').replace(/,/g, '');
+
+                    const temp = await contact.getUserInfo(item.heuserid);
+
+                    //获取聊天对象信息
+                    item.user = [temp];
+                    item.msg = [{ text: item.content, date: item.create_time }];
+
+                };
+
+                storage.setStore(`sys_message_cache##v2@${tableName}&wxid${wxid}}&maxid${maxId}`, res.body, 1);
+            }
+
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
 
     /**
      * 获取奖罚月度/季度报表

@@ -16,6 +16,7 @@ var announceExports = require('./announce');
 var queryExports = require('./query');
 var manageExports = require('./manage');
 var taskExports = require('./task');
+var contactExports = require('./contact');
 var workconfigExports = require('./workconfig');
 var workflowExports = require('./workflow');
 var wflowprocessExports = require('./wflow.process');
@@ -42,6 +43,7 @@ Object.assign(
     workconfigExports,
     workflowExports,
     wflowprocessExports,
+    contactExports,
 );
 
 module.exports = methodExports
