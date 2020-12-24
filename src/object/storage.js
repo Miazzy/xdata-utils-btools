@@ -2,14 +2,14 @@ var constant = require('./constant')
 
 try {
     if (localforage) {
-        // localforage.config({
-        //     driver: localforage.WEBSQL,
-        //     name: 'cache',
-        //     version: 1.0,
-        //     size: 4294967296,
-        //     storeName: 'keyvaluepairs',
-        //     description: ''
-        // });
+        localforage.config({
+            driver: localforage.WEBSQL,
+            name: 'cache',
+            version: 1.0,
+            size: 4294967296,
+            storeName: 'keyvaluepairs',
+            description: ''
+        });
     } else {
         localforage = { setItem: () => {}, getItem: () => {}, removeItem: () => {}, clear: () => {} };
     }
