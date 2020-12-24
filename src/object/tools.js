@@ -19,6 +19,73 @@ function filterObj(obj) {
 }
 
 /**
+ * 时间格式化
+ * @param value
+ * @param fmt
+ * @returns {*}
+ */
+export function formatDate(value, fmt) {
+    //如果时间格式含有T，yyyy-MM-ddThh:mm:ss,yyyy-MM-ddThh:mm:ss.SSSZ，这样做可以自动把+0:00时区的时间转为+8:00的时间
+    if (typeof value == 'string' && value.includes('T')) {
+        value = new Date(value);
+    }
+
+    //正则表达式
+    var regPos = /^\d+(\.\d+)?$/;
+
+    if (regPos.test(value) || value instanceof Date) {
+        //如果是数字
+        let getDate = value instanceof Date ? value : new Date(value);
+        let o = {
+            'M+': getDate.getMonth() + 1,
+            'd+': getDate.getDate(),
+            'h+': getDate.getHours(),
+            'm+': getDate.getMinutes(),
+            's+': getDate.getSeconds(),
+            'q+': Math.floor((getDate.getMonth() + 3) / 3),
+            S: getDate.getMilliseconds(),
+        };
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(
+                RegExp.$1,
+                (getDate.getFullYear() + '').substr(4 - RegExp.$1.length)
+            );
+        }
+        for (let k in o) {
+            if (new RegExp('(' + k + ')').test(fmt)) {
+                fmt = fmt.replace(
+                    RegExp.$1,
+                    RegExp.$1.length === 1 ?
+                    o[k] :
+                    ('00' + o[k]).substr(('' + o[k]).length)
+                );
+            }
+        }
+
+        try {
+            fmt = fmt.replace('T', ' ');
+        } catch (error) {
+            console.log('formate date error : ' + error);
+        }
+
+        return fmt;
+    } else {
+        //TODO
+        try {
+            if (typeof value == 'undefined' || value == null) {
+                value = '--';
+            }
+            value = value.trim();
+            fmt = value.substr(0, fmt.length);
+            fmt = fmt.replace('T', ' ');
+        } catch (error) {
+            console.log('formate date error : ' + error);
+        }
+        return fmt;
+    }
+}
+
+/**
  * @description 过滤空对象
  * @param {*} data
  */
@@ -491,6 +558,7 @@ function contain(origin, arg) {
 var toolsExports = {
     tools: {
         filterObj,
+        formatDate,
         deNull,
         isNull,
         isBlank,
