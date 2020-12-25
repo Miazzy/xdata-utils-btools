@@ -435,13 +435,12 @@ const query = {
                 }
 
                 //设置system_userinfo
-                storage.setStore('system_linfo', JSON.stringify({ username: response.body.userinfo.userid, password: '************' }), 3600 * 24 * 30);
-                storage.setStore('system_userinfo', JSON.stringify(response.body.userinfo), 3600 * 24 * 30);
+                storage.setStore('system_linfo', JSON.stringify({ username: response && response.body && response.body.userinfo ? response.body.userinfo.userid || response.body.userinfo.username : '', password: '************' }), 3600 * 24 * 30);
+                storage.setStore('system_userinfo', JSON.stringify(response && response.body && response.body.userinfo ? response.body.userinfo : {}), 3600 * 24 * 30);
                 storage.setStore('system_token', JSON.stringify(code), 3600 * 24 * 30);
-                storage.setStore('system_department', JSON.stringify(response.body.userinfo.department), 3600 * 24 * 30);
+                storage.setStore('system_department', JSON.stringify(response && response.body && response.body.userinfo ? response.body.userinfo.department || {} : {}), 3600 * 24 * 30);
                 storage.setStore('system_login_time', dayjs().format('YYYY-MM-DD HH:mm:ss'), 3600 * 24 * 30);
                 storage.setStore(`sys_wework_user_code#wework_user_code#@${code}`, JSON.stringify(userinfo), 3600 * 24 * 30);
-
             } else {
                 userinfo = storage.getStore('system_userinfo');
             }
