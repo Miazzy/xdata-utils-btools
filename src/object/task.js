@@ -34,7 +34,7 @@ const task = {
                 item['username'] = tools.deNull(item['username']).split(',');
                 item['content'] = tools.abbreviation(tools.delHtmlTag(item['content']));
                 item['topic'] = tools.abbreviation(tools.delHtmlTag(item['topic']));
-                var flag = (item['username'].contains(username) || item['username'].contains(realname)); //查询是否存在此用户名            
+                var flag = (item['username'].includes(username) || item['username'].includes(realname)); //查询是否存在此用户名            
                 return flag; //返回结果
             });
             try {
@@ -95,16 +95,13 @@ const task = {
 
                     //查询是否存在此用户名，且已处理用户中，不含登录用户
                     if (item.tname === 'bs_seal_regist') {
-                        var flag = (item['username'].contains(username) || item['username'].contains(realname));
-                        //返回结果
+                        var flag = (item['username'].includes(username) || item['username'].includes(realname));
                         return flag;
                     } else if (item.tname === 'bs_goods_receive') {
-                        var flag = (item['username'].contains(username) || item['username'].contains(realname));
-                        //返回结果
+                        var flag = (item['username'].includes(username) || item['username'].includes(realname));
                         return flag;
                     } else {
-                        var flag = (item['username'].contains(username) || item['username'].contains(realname)) && (!item.user.includes(username));
-                        //返回结果
+                        var flag = (item['username'].includes(username) || item['username'].includes(realname)) && (!item.user.includes(username));
                         return flag;
                     }
                 });
@@ -172,9 +169,9 @@ const task = {
 
                     // 查询是否存在此用户名，且已处理用户中，不含登录用户
                     if (item.tname === 'bs_seal_regist') {
-                        return (item['username'].contains(username) || item['username'].contains(realname));
+                        return (item['username'].includes(username) || item['username'].includes(realname));
                     } else if (item.tname === 'bs_goods_receive') {
-                        return (item['username'].contains(username) || item['username'].contains(realname));
+                        return (item['username'].includes(username) || item['username'].includes(realname));
                     } else {
                         return false;
                     }
