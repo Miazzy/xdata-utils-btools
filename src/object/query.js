@@ -470,6 +470,36 @@ const query = {
     },
 
     /**
+     * 查询用户以前的填写的物品管理员
+     */
+    async queryGoodsAdmin(username) {
+        tableName = 'bs_goods_receive';
+        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(create_by,eq,${username})~and(status,ne,待处理)&_sort=-create_time`;
+        try {
+            var res = await superagent.get(queryURL).set('accept', 'json');
+            console.log(res);
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
+     * 查询用户以前的填写的物品管理员
+     */
+    async queryAdminAdress(name) {
+        tableName = 'bs_admin_address';
+        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(name,like,~${name}~)~and(status,eq,100)&_sort=-id`;
+        try {
+            var res = await superagent.get(queryURL).set('accept', 'json');
+            console.log(res);
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
      * 根据数据字典中的节点编号，查询到这个节点对应的流程岗位名称
      */
     async queryProcessLogHistoryByUserName(tableName, username) {
