@@ -604,7 +604,7 @@ const manage = {
             const curYear = dayjs().format('YYYY');
 
             //构建查询SQL 查询一年内，且不为[dayjs().subtract('1', 'year').format('YYYY')]的数据 
-            const sql = `${window.BECONFIG['restAPI']}/api/bs_seal_regist?_where=(contract_id,like,${prefix}[${curYear}]~)~and(contract_id,nlike,~[${year}]~)~and(create_time,gt,${month})~and(seal_type,eq,合同类)~and(status,in,待用印,已退回,已废弃,已用印,已领取,移交前台,已完成,财务归档,档案归档,已归档)&_p=0&_size=3&_sort=-contract_id`;
+            const sql = `${window.BECONFIG['restAPI']}/api/bs_seal_regist?_where=((contract_id,like,${prefix}[${curYear}]~)~or(contract_id,like,${prefix}~${curYear}~))~and(contract_id,nlike,~[${year}]~)~and(create_time,gt,${month})~and(seal_type,eq,合同类)~and(status,in,待用印,已退回,已废弃,已用印,已领取,移交前台,已完成,财务归档,档案归档,已归档)&_p=0&_size=3&_sort=-contract_id`;
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
             const maxinfo = await superagent.get(sql).set('accept', 'json');
 
