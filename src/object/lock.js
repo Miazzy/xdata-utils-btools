@@ -24,7 +24,6 @@ const lock = {
                     lock_remark: '',
                     content: '',
                     status: 1,
-                    teamname: '',
                     lock_username: lockOperator,
                     lock_flag: 'Y',
                 };
