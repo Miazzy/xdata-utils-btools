@@ -1054,6 +1054,11 @@ const manage = {
         }
     },
 
+    /**
+     * 执行上锁(分布式锁)
+     * @param {*} tableName
+     * @param {*} id
+     */
     async lock(lockName = 'crontab_task', lockMS = 24 * 3600 * 1000) {
         try {
             const ctime = dayjs().format('YYYY-MM-DD hh:mm:ss');
@@ -1085,6 +1090,11 @@ const manage = {
         }
     },
 
+    /**
+     * 执行解锁(分布式锁)
+     * @param {*} tableName
+     * @param {*} id
+     */
     async unlock(lockName = 'crontab_task') {
         try {
             const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
