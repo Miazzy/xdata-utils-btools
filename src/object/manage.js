@@ -1093,7 +1093,7 @@ const manage = {
         } catch (error) {
             return false;
         }
-    }
+    },
 
 
 };
