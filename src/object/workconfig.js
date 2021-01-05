@@ -55,7 +55,7 @@ const workconfig = {
         archiveTypeColumns: ['财务归档', '档案归档'],
         orderTypeColumns: ['我方先印', '常规用印'],
         sealTypeColumns: ['合同类', '非合同类'],
-        sealCategoryColumns: ['合同专用章', '公章', '法人章', '法人私章', '财务章专用章', '发票专用章'],
+        sealCategoryColumns: ['合同专用章', '公章', '法人章', '法人私章', '财务专用章', '发票专用章'],
         sealStatusColumns: ['待用印', '已用印', '已领取', '已寄送', '移交前台', '档案归档', '财务归档', '已退回', '已作废'],
         diplomaTypeColumns: ['博士', '硕士', '本科', '专科', '高中', '初中', '小学'],
         acceptType: ['*/*'],
