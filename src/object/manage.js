@@ -1104,6 +1104,58 @@ const manage = {
         }
     },
 
+    /**
+     * 执行记录日志(分布式锁)
+     * @param {*} tableName
+     * @param {*} recordID
+     */
+    async logRecord(tableName, recordID, username = '', processName = '', action = '', actionOpinion = '', content = '', position = '', processStation = '', data = '', businessCode = '000000000') {
+
+        let businessData = '';
+
+        //如果表名或者表单ID不存在，则直接返回
+        if (!tableName || !recordID) {
+            return false;
+        }
+
+        try {
+            businessData = JSON.stringify(data);
+        } catch (error) {
+            businessData = data;
+        }
+
+        try {
+            //记录 审批人 经办人 审批表单 表单编号 记录编号 操作(同意/驳回) 意见 内容 表单数据
+            const prLogHisNode = {
+                id: Betools.tools.queryUniqueID(),
+                table_name: tableName,
+                main_value: recordID,
+                proponents: username,
+                business_data_id: recordID,
+                business_code: businessCode,
+                process_name: processName,
+                employee: username,
+                approve_user: username,
+                action: action,
+                action_opinion: actionOpinion,
+                operate_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                functions_station: position,
+                process_station: processStation,
+                business_data: businessData,
+                content: content,
+                process_audit: '',
+                create_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                relate_data: '',
+                origin_data: '',
+            }
+
+            return await Betools.workflow.approveViewProcessLog(prLogHisNode);
+        } catch (error) {
+            return false;
+        }
+
+    }
+
 
 };
 
