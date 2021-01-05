@@ -355,6 +355,14 @@ function isURL(s) {
 }
 
 /**
+ * 提取字符串中的数字
+ * @param {*} str 
+ */
+function queryNumber(str) {
+    return str.replace(/[^0-9]/ig, "");
+}
+
+/**
  * @description 去除字符串中html标签
  * @param {*} str
  */
