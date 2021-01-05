@@ -1094,7 +1094,7 @@ const manage = {
             return false;
         }
     }
-}
+
 
 };
 
