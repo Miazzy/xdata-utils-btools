@@ -107,7 +107,7 @@ const query = {
      */
     async queryTableDataByField(tableName, field, value) {
         tableName = tableName.toLowerCase();
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(${field},eq,${value})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?_where=(${field},eq,${value})`;
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
             return res.body;
@@ -124,7 +124,7 @@ const query = {
     async queryTableData(tableName, id) {
 
         tableName = tableName.toLowerCase();
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}/${id}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}/${id}`;
 
         try {
             //获取缓存中的数据
@@ -155,7 +155,7 @@ const query = {
     async queryTableDataByPid(tableName, id) {
 
         tableName = tableName.toLowerCase();
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(pid,eq,${id})&_sort=create_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?_where=(pid,eq,${id})&_sort=create_time`;
 
         try {
             //获取缓存中的数据
@@ -185,8 +185,7 @@ const query = {
      */
     async queryRoleGroupList(name, username = '') {
 
-        const tableName = 'bs_admin_group';
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(groupname,eq,${name})~and(userlist,like,~${username}~)&_sort=create_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_admin_group?_where=(groupname,eq,${name})~and(userlist,like,~${username}~)&_sort=create_time`;
 
         try {
             //获取缓存中的数据
@@ -310,7 +309,7 @@ const query = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?${whereSQL}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?${whereSQL}`;
 
         try {
 
