@@ -494,9 +494,9 @@ const workconfig = {
     },
     /** @description 暴露查询API接口  */
     queryAPI: {
-        autoSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/serial/bs_seal_regist/serialid/id`,
-        tableSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/serial/{table_name}/serialid/id`,
-        patchSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/patchserial/bs_seal_regist/serialid/id`,
+        autoSerialAPI: `${window.BECONFIG['restAPI']}/api/v2/mysql/serial/bs_seal_regist/serialid/id`,
+        tableSerialAPI: `${window.BECONFIG['restAPI']}/api/v2/mysql/serial/{table_name}/serialid/id`,
+        patchSerialAPI: `${window.BECONFIG['restAPI']}/api/v2/mysql/patchserial/bs_seal_regist/serialid/id`,
     },
     /**  @description 表单验证说明 */
     compValidation: {

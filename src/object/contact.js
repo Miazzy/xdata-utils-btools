@@ -24,7 +24,7 @@ const contact = {
         }
 
         //查询部门URL
-        const queryDepartURL = `${window.requestAPIConfig.restapi}/api/${system_type}/wework_depart_list/${userinfo.main_department}`;
+        const queryDepartURL = `${window.BECONFIG['restAPI']}/api/${system_type}/wework_depart_list/${userinfo.main_department}`;
 
         //获取上级部门编号
         const respDepart = await superagent.get(queryDepartURL).set('accept', 'json');
@@ -35,7 +35,7 @@ const contact = {
         });
 
         //查询URL
-        const queryURL = `${window.requestAPIConfig.restapi}/api/${system_type}/wework_depart_user/${department.parentid}/1`
+        const queryURL = `${window.BECONFIG['restAPI']}/api/${system_type}/wework_depart_user/${department.parentid}/1`
 
         var result = {};
 
@@ -116,7 +116,7 @@ const contact = {
     async queryWorkUserList() {
 
         //查询URL
-        var queryURL = `${window.requestAPIConfig.restapi}/api/v3/employee`;
+        var queryURL = `${window.BECONFIG['restAPI']}/api/v3/employee`;
         var result = {};
 
         const cache = await Betools.storage.getStoreDB(ALL_USER_CACHE_WORK_KEY);
@@ -215,8 +215,8 @@ const contact = {
         var ascFlag = params.order == 'asc' ? '' : '-';
 
         //查询URL
-        var queryURL = `${window.requestAPIConfig.restapi}/api/v_user?${whereFlag}_p=${params.pageNo}&_size=${params.pageSize}&_sort=${ascFlag}${params.column}`;
-        var queryCountURL = `${window.requestAPIConfig.restapi}/api/v_user/count?${whereFlag}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/api/v_user?${whereFlag}_p=${params.pageNo}&_size=${params.pageSize}&_sort=${ascFlag}${params.column}`;
+        var queryCountURL = `${window.BECONFIG['restAPI']}/api/v_user/count?${whereFlag}`;
         var result = {};
 
         try {
@@ -354,7 +354,7 @@ const contact = {
         }
 
         //如果没有查询到，则直接查询远程服务器
-        var queryURL = `${window.requestAPIConfig.restapi}/api/v2/wework_user/${wxid}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/api/v2/wework_user/${wxid}`;
 
         try {
             //获取缓存中的数据
