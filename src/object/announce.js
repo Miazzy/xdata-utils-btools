@@ -9,7 +9,7 @@ const announce = {
     async queryAnnounceList(page = 0, size = 50) {
 
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_announce?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_announce?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
 
         try {
             //先检测缓存中，是否有数据，如果没有数据，则从数据库中查询
@@ -50,7 +50,7 @@ const announce = {
      */
     async queryHeadList(page = 0, size = 50) {
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_redhead?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_redhead?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
 
         try {
 
@@ -92,7 +92,7 @@ const announce = {
      */
     async queryNewsList(page = 0, size = 50) {
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_news?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_news?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
 
         try {
 
@@ -134,7 +134,7 @@ const announce = {
      */
     async queryNoticeList(page = 0, size = 50) {
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_notice?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_notice?_where=(bpm_status,in,4,5)&_sort=-create_time&_p=${page}&_size=${size}`;
 
         try {
 

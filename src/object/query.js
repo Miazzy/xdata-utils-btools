@@ -277,7 +277,7 @@ const query = {
      */
     async querySealManMail(username) {
 
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_seal_regist?_where=(sign_man,eq,${username})&_fields=deal_mail,create_by&_p=0&_size=1`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_seal_regist?_where=(sign_man,eq,${username})&_fields=deal_mail,create_by&_p=0&_size=1`;
 
         try {
             //获取缓存中的数据
@@ -473,7 +473,7 @@ const query = {
      * 查询用户以前的填写的物品管理员
      */
     async queryGoodsAdmin(username) {
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_goods_receive?_where=(create_by,eq,${username})~and(status,in,待处理,已领取,已完成)&_sort=-create_time&_p=0&_size=1`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_goods_receive?_where=(create_by,eq,${username})~and(status,in,待处理,已领取,已完成)&_sort=-create_time&_p=0&_size=1`;
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
             console.log(res);
@@ -487,7 +487,7 @@ const query = {
      * 查询用户以前的填写的物品管理员
      */
     async queryAdminAdress(name) {
-        var queryURL = `${window.BECONFIG['restAPI']}/api/bs_admin_address?_where=(name,like,~${name}~)~and(status,eq,100)&_sort=-id`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/bs_admin_address?_where=(name,like,~${name}~)~and(status,eq,100)&_sort=-id`;
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
             console.log(res);
