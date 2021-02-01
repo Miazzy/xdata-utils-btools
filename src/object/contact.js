@@ -24,7 +24,7 @@ const contact = {
         }
 
         //查询部门URL
-        const queryDepartURL = `https://api.yunwisdom.club:30443/api/${system_type}/wework_depart_list/${userinfo.main_department}`;
+        const queryDepartURL = `${window.requestAPIConfig.restapi}/api/${system_type}/wework_depart_list/${userinfo.main_department}`;
 
         //获取上级部门编号
         const respDepart = await superagent.get(queryDepartURL).set('accept', 'json');

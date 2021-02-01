@@ -494,9 +494,9 @@ const workconfig = {
     },
     /** @description 暴露查询API接口  */
     queryAPI: {
-        autoSerialAPI: 'https://api.yunwisdom.club:30443/api/v2/mysql/serial/bs_seal_regist/serialid/id',
-        tableSerialAPI: 'https://api.yunwisdom.club:30443/api/v2/mysql/serial/{table_name}/serialid/id',
-        patchSerialAPI: 'https://api.yunwisdom.club:30443/api/v2/mysql/patchserial/bs_seal_regist/serialid/id',
+        autoSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/serial/bs_seal_regist/serialid/id`,
+        tableSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/serial/{table_name}/serialid/id`,
+        patchSerialAPI: `${window.requestAPIConfig.restapi}/api/v2/mysql/patchserial/bs_seal_regist/serialid/id`,
     },
     /**  @description 表单验证说明 */
     compValidation: {
