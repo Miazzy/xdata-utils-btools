@@ -189,7 +189,7 @@ const query = {
 
         try {
             //获取缓存中的数据
-            var cache = storage.getStore(`sys_user_cache@${tableName}&groupname${name}`);
+            var cache = storage.getStore(`sys_user_cache@bs_admin_group&groupname${name}`);
 
             //返回缓存值
             if (typeof cache != 'undefined' && cache != null && cache != '') {
@@ -199,7 +199,7 @@ const query = {
             var res = await superagent.get(queryURL).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
-                storage.setStore(`sys_user_cache@${tableName}&groupname${name}`, res.body, 2);
+                storage.setStore(`sys_user_cache@bs_admin_group&groupname${name}`, res.body, 2);
             }
 
             return res.body;
