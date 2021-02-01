@@ -9,7 +9,7 @@ const query = {
      * @param {*} tableName
      */
     async queryUserInfoByView(username) {
-        var queryURL = `${window.BECONFIG['restAPI']}/api/v_user?_where=(username,eq,${username})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_user?_where=(username,eq,${username})`;
         var result = null;
         try {
             //先检测缓存中，是否有数据，如果没有数据，则从数据库中查询
@@ -247,7 +247,7 @@ const query = {
     async queryMessages(wxid, wxid_, maxId = 0) {
 
         const tableName = 'bs_message';
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=((team,like,~${wxid},${wxid_}~)~or(team,like,~${wxid_},${wxid}~))&_sort=-id`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?_where=((team,like,~${wxid},${wxid_}~)~or(team,like,~${wxid_},${wxid}~))&_sort=-id`;
 
         try {
             //获取缓存中的数据
@@ -308,7 +308,7 @@ const query = {
     async queryTableDataByWhereSQL(tableName, whereSQL) {
         //大写转小写
         tableName = tableName.toLowerCase();
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
         var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?${whereSQL}`;
 
         try {
@@ -331,8 +331,8 @@ const query = {
         const tableName = 'bs_seal_regist';
         const whereSQL = `_where=(create_by,eq,${username})~and(deal_mail,like,~@~)&_p=0&_size=1`;
 
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?${whereSQL}`;
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?${whereSQL}`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -352,8 +352,8 @@ const query = {
         const tableName = 'bs_seal_regist';
         const whereSQL = `_where=(create_by,eq,${username})~and(seal_type,eq,合同类)&_p=0&_size=1`;
 
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?${whereSQL}`;
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?${whereSQL}`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -374,7 +374,7 @@ const query = {
             return {};
         }
 
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
         var queryURL = `${window.BECONFIG['restAPI']}/api/v2/queryemployee/${userid}`;
 
         //获取缓存中的数据
@@ -457,7 +457,7 @@ const query = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -503,7 +503,7 @@ const query = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log_history?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log_history?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -523,7 +523,7 @@ const query = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //Post数据的URL地址
-        var deleteURL = `${window.BECONFIG['restAPI']}/api/${tableName}/${id}`;
+        var deleteURL = `${window.BECONFIG['restAPI']}/apis/${tableName}/${id}`;
 
         try {
             var res = await superagent.delete(deleteURL).set('accept', 'json');
@@ -542,7 +542,7 @@ const query = {
 
         try {
             const tableName = 'v_messages'; //大写转小写
-            var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(team,like,~${wxid}~)&_sort=-id&_p=0&_size=100`; //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
+            var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?_where=(team,like,~${wxid}~)&_sort=-id&_p=0&_size=100`; //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
             var cache = storage.getStore(`sys_message_cache##v2@${tableName}&wxid${wxid}}&maxid${maxId}`); //获取缓存中的数据
             if (typeof cache != 'undefined' && cache != null && cache != '') { //返回缓存值
                 return cache;
@@ -585,7 +585,7 @@ const query = {
     async queryRewardDataByID(period) {
 
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/v_reward_data?_where=(period,like,${period})&_sort=amount&_p=0&_size=1000`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_reward_data?_where=(period,like,${period})&_sort=amount&_p=0&_size=1000`;
 
         //获取缓存中的数据
         var cache = storage.getStore(`sys_v_reward_data&id${period}`);

@@ -58,7 +58,7 @@ const manage = {
                 userlist.length == 0
             ) {
                 while (index < 10000) {
-                    queryURL = `${window.BECONFIG['restAPI']}/api/v_uname?_p=${index++}&_size=1000`;
+                    queryURL = `${window.BECONFIG['restAPI']}/apis/v_uname?_p=${index++}&_size=1000`;
                     var res = await superagent.get(queryURL).set('accept', 'json');
                     result = result.concat(res.body);
                     //如果返回结果数据小于size，则表示查询到末页，不在查询
@@ -156,7 +156,7 @@ const manage = {
         tableName = tableName.toLowerCase();
 
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -209,7 +209,7 @@ const manage = {
      */
     async queryProcessNodeProcName(node, callback) {
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/sys_dict_item?_where=(dict_id,eq,${window.requestAPIConfig.PROCESS_NODE_DICT_ID})~and(item_value,eq,${node})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/sys_dict_item?_where=(dict_id,eq,${window.requestAPIConfig.PROCESS_NODE_DICT_ID})~and(item_value,eq,${node})`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -269,7 +269,7 @@ const manage = {
 
         //构建知会表提交数据的URL
         try {
-            postURL = `${window.BECONFIG['restAPI']}/api/pr_log_informed${bflag}`;
+            postURL = `${window.BECONFIG['restAPI']}/apis/pr_log_informed${bflag}`;
         } catch (error) {
             console.log(error);
         }
@@ -297,7 +297,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //Post数据的URL地址
-        var insertURL = `${window.BECONFIG['restAPI']}/api/${tableName}`;
+        var insertURL = `${window.BECONFIG['restAPI']}/apis/${tableName}`;
         //设置node为value
         const value = node;
 
@@ -465,7 +465,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['restAPI']}/api/v_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})~and(cname,eq,${cname})&_sort=id`).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['restAPI']}/apis/v_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})~and(cname,eq,${cname})&_sort=id`).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -543,7 +543,7 @@ const manage = {
     async queryTableData(tableName, whereSQL) {
         //大写转小写
         tableName = tableName.toLowerCase();
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?${whereSQL}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?${whereSQL}`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -560,7 +560,7 @@ const manage = {
      */
     async queryTableDataCount(tableName, whereSQL) {
         tableName = tableName.toLowerCase();
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}/count?${whereSQL}`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}/count?${whereSQL}`;
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
             return res.body[0]['no_of_rows'];
@@ -681,7 +681,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log_informed?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log_informed?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -699,7 +699,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //提交URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})&_sort=operate_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})&_sort=operate_time`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -718,7 +718,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_rights?_where=(business,like,~${tableName}~)`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_rights?_where=(business,like,~${tableName}~)`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -748,8 +748,8 @@ const manage = {
 
         //大写转小写
         tableName = tableName.toLowerCase();
-        //查询URL GET	/api/tableName/:id/exists	True or false whether a row exists or not  /api/tableName/findOne
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})`;
+        //查询URL GET	/apis/tableName/:id/exists	True or false whether a row exists or not  /apis/tableName/findOne
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})`;
 
         //查询标识
         var vflag = false;
@@ -807,8 +807,8 @@ const manage = {
 
         //大写转小写
         tableName = tableName.toLowerCase();
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
-        var patchURL = `${window.BECONFIG['restAPI']}/api/${tableName}/${id}`;
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
+        var patchURL = `${window.BECONFIG['restAPI']}/apis/${tableName}/${id}`;
 
         //如果传入数据为空，则直接返回错误
         if (typeof node == 'undefined' || node == null || node == '') {
@@ -832,7 +832,7 @@ const manage = {
      */
     async postProcessLog(node) {
         //提交URL
-        var postURL = `${window.BECONFIG['restAPI']}/api/pr_log`;
+        var postURL = `${window.BECONFIG['restAPI']}/apis/pr_log`;
 
         try {
             var res = await superagent
@@ -868,7 +868,7 @@ const manage = {
 
         //构建流程历史表提交数据的URL
         try {
-            postURL = `${window.BECONFIG['restAPI']}/api/pr_log_history${bflag}`;
+            postURL = `${window.BECONFIG['restAPI']}/apis/pr_log_history${bflag}`;
         } catch (error) {
             console.log(error);
         }
@@ -915,7 +915,7 @@ const manage = {
         }
 
         try {
-            deleteURL = `${window.BECONFIG['restAPI']}/api/pr_log/bulk?_ids=${ids}`;
+            deleteURL = `${window.BECONFIG['restAPI']}/apis/pr_log/bulk?_ids=${ids}`;
         } catch (error) {
             console.log(error);
         }
@@ -959,7 +959,7 @@ const manage = {
         }
 
         try {
-            deleteURL = `${window.BECONFIG['restAPI']}/api/pr_log_informed/bulk?_ids=${ids}`;
+            deleteURL = `${window.BECONFIG['restAPI']}/apis/pr_log_informed/bulk?_ids=${ids}`;
         } catch (error) {
             console.log(error);
         }
@@ -979,7 +979,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //查询URL GET
-        var queryURL = `${window.BECONFIG['restAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})`;
         //查询标识
         var vflag = false;
 
@@ -1024,8 +1024,8 @@ const manage = {
     async queryTableDataByField(tableName, field, value) {
         //大写转小写
         tableName = tableName.toLowerCase();
-        //更新URL PATCH	/api/tableName/:id	Updates row element by primary key
-        var queryURL = `${window.BECONFIG['restAPI']}/api/${tableName}?_where=(${field},eq,${value})`;
+        //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/${tableName}?_where=(${field},eq,${value})`;
 
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -1044,7 +1044,7 @@ const manage = {
         //大写转小写
         tableName = tableName.toLowerCase();
         //Post数据的URL地址
-        var deleteURL = `${window.BECONFIG['restAPI']}/api/${tableName}/${id}`;
+        var deleteURL = `${window.BECONFIG['restAPI']}/apis/${tableName}/${id}`;
 
         try {
             var res = await superagent.delete(deleteURL).set('accept', 'json');

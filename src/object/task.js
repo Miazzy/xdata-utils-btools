@@ -16,7 +16,7 @@ const task = {
         }
 
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/v_handled_events_unq?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_handled_events_unq?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
         var result = {};
         try {
             var res = await superagent.get(queryURL).set('accept', 'json');
@@ -71,7 +71,7 @@ const task = {
         }
 
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/v_handling_events?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_handling_events?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
         var result = {};
 
         try {
@@ -145,7 +145,7 @@ const task = {
         }
 
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/api/v_handling_events?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
+        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_handling_events?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
         var result = {};
 
         try {
