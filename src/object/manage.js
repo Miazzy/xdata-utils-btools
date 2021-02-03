@@ -390,6 +390,38 @@ const manage = {
     /**
      * @description 获取当前名字的用户信息
      */
+    async queryUserByNameVHRM(name, seclevel = 50) {
+
+        let result = [];
+
+        if (tools.isNull(name)) {
+            return [];
+        }
+
+        try {
+
+            //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
+            var temp_ = await superagent.get(`${window.BECONFIG['restAPI']}/apis/v_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(status,ne,5)~and(seclevel,lt,${seclevel})`).set('accept', 'json');
+
+            result = [...temp_.body];
+
+            //剔除掉，没有loginid的用户信息
+            result = result.filter(item => {
+                return !tools.isNull(item.loginid);
+            })
+
+            //返回用户信息
+            return result;
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+
+    /**
+     * @description 获取当前名字的用户信息
+     */
     async queryUserByNameReward(name, seclevel = 101) {
 
         let result = [];
