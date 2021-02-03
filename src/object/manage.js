@@ -401,7 +401,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['restAPI']}/apis/v_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(status,ne,5)~and(seclevel,lt,${seclevel})`).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['restAPI']}/apis/v_hrmresource?_where=((name,like,~${name}~)~or(userid,like,~${name}~))~and(seclevel,lt,${seclevel})`).set('accept', 'json');
 
             result = [...temp_.body];
 
