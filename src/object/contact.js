@@ -215,8 +215,8 @@ const contact = {
         var ascFlag = params.order == 'asc' ? '' : '-';
 
         //查询URL
-        var queryURL = `${window.BECONFIG['restAPI']}/apis/v_user?${whereFlag}_p=${params.pageNo}&_size=${params.pageSize}&_sort=${ascFlag}${params.column}`;
-        var queryCountURL = `${window.BECONFIG['restAPI']}/apis/v_user/count?${whereFlag}`;
+        var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/v_user?${whereFlag}_p=${params.pageNo}&_size=${params.pageSize}&_sort=${ascFlag}${params.column}`;
+        var queryCountURL = `${window.BECONFIG['xmysqlAPI']}/api/v_user/count?${whereFlag}`;
         var result = {};
 
         try {

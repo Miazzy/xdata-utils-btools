@@ -6,6 +6,8 @@ window.BECONFIG['topdomain'] = window.BECONFIG['topDomain'] = window._CONFIG && 
 window.BECONFIG['domain'] = 'https://www.' + window.BECONFIG['topdomain'];
 //Vue-REST-API服务器域名
 window.BECONFIG['restAPI'] = 'https://api.' + window.BECONFIG['topdomain'] + '/gateway';
+//Vue-XMYSQL-API服务器域名
+window.BECONFIG['xmysqlAPI'] = 'https://api.' + window.BECONFIG['topdomain'] + '/gateway-xmysql';
 //API端服务器URL
 window.BECONFIG['domainURL'] = window.BECONFIG['domain'] + '/jeecg-boot';
 //Vue服务器域名,不要删除domian属性，因为有些组件是这样写的，而且位于node_module里面
