@@ -23,7 +23,7 @@ const workflow = {
         }
 
         try {
-            var res = await superagent.get(queryURL).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
 
             console.log(res);
 
@@ -55,7 +55,7 @@ const workflow = {
         // }
 
         try {
-            var res = await superagent.get(queryURL).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
 
             console.log(res);
 
@@ -85,7 +85,7 @@ const workflow = {
         }
 
         try {
-            var res = await superagent.get(queryURL).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
 
             console.log(res);
 
@@ -115,7 +115,7 @@ const workflow = {
         }
 
         try {
-            var res = await superagent.get(queryURL).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
 
             console.log(res);
 

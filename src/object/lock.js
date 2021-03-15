@@ -1,3 +1,5 @@
+var { tools } = require('./tools');
+
 const lock = {
 
     /**
@@ -15,7 +17,7 @@ const lock = {
                 const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
                 tempList.map((item) => { Betools.manage.deleteTableData("bs_lock_info", item.id) });
                 const elem = { //新增本条lock_name数据，上锁
-                    id: Betools.tools.queryUniqueID(),
+                    id: tools.queryUniqueID(),
                     lock_name: lockName,
                     lock_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     lock_value: '',
