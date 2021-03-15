@@ -5,6 +5,7 @@
     "scripts": {
         "lint": "eslint test/**/*.js src/**/*.js",
         "jest": "jest",
+        "build": "rollup -c rollup.config.js ",
         "test": "npm run lint && npm run jest"
     },
     "devDependencies": {
