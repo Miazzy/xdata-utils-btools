@@ -252,10 +252,9 @@ const manage = {
      * 想知会记录列表提交数据
      */
     async postProcessLogInformed(node) {
-        //提交URL
-        var postURL = null;
-        //是否批处理
-        var bflag = node instanceof Array && node.length > 1 ? '/bulk' : '';
+        var postURL = null; //提交URL
+        var res = null;
+        var bflag = node instanceof Array && node.length > 1 ? '/bulk' : ''; //是否批处理
 
         //如果只有一条数据,则URL中不需要/bulk路径
         try {
@@ -276,16 +275,14 @@ const manage = {
 
         //发送post请求，保存数据
         try {
-            var res = await superagent
-                .post(postURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-            console.log(res);
-
-            return res.body;
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+        return res.body;
     },
 
 
@@ -300,6 +297,7 @@ const manage = {
         var insertURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}`;
         //设置node为value
         const value = node;
+        var res = null;
 
         //设置时间格式
         Object.keys(value).map(key => {
@@ -312,15 +310,14 @@ const manage = {
         }
 
         try {
-            var res = await superagent
-                .post(insertURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-
-            return res.body;
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+        return res.body;
     },
 
     async queryUsernameByID(id) {
@@ -873,6 +870,7 @@ const manage = {
         tableName = tableName.toLowerCase();
         //更新URL PATCH	/apis/tableName/:id	Updates row element by primary key
         var patchURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/${id}`;
+        var res = null;
 
         //如果传入数据为空，则直接返回错误
         if (typeof node == 'undefined' || node == null || node == '') {
@@ -880,15 +878,15 @@ const manage = {
         }
 
         try {
-            var res = await superagent
-                .patch(patchURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-
-            return res.body;
+            node.xid = tools.queryUniqueID();
+            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+
+        return res.body;
     },
 
     /**
@@ -897,28 +895,26 @@ const manage = {
     async postProcessLog(node) {
         //提交URL
         var postURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log`;
+        var res = null;
 
         try {
-            var res = await superagent
-                .post(postURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-            console.log(res);
-
-            return res.body;
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+        return res.body;
     },
 
     /**
      * 根据数据字典中的节点编号，查询到这个节点对应的流程岗位名称
      */
     async postProcessLogHistory(node) {
-        //提交URL
-        var postURL = null;
-        //是否批处理
-        var bflag = node instanceof Array && node.length > 1 ? '/bulk' : '';
+        var postURL = null; //提交URL
+        var bflag = node instanceof Array && node.length > 1 ? '/bulk' : ''; //是否批处理
+        var res = null;
 
         //如果只有一条数据,则URL中不���要/bulk路径
         try {
@@ -939,15 +935,15 @@ const manage = {
 
         //发送post请求，保存数据
         try {
-            var res = await superagent
-                .post(postURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-            console.log(res);
-            return res.body;
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+
+        return res.body;
     },
 
 
@@ -1063,19 +1059,16 @@ const manage = {
     async postProcessFreeNode(node) {
         //提交URL
         var postURL = `${window.BECONFIG['xmysqlAPI']}/api/bs_free_process`;
+        var res = null;
         try {
-            var res = await superagent
-                .post(postURL)
-                .send(node)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
-
-            console.log(res);
-
-            return res.body;
-
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
+            delete node.xid;
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
+        return res.body;
 
     },
 
