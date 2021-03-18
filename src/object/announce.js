@@ -17,7 +17,7 @@ const announce = {
 
             if (tools.isNull(resultInfo) || resultInfo.length <= 0 || resultInfo == 'undefined') {
 
-                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
                 var result = res.body;
 
@@ -59,7 +59,7 @@ const announce = {
 
             if (tools.isNull(resultInfo) || resultInfo.length <= 0 || resultInfo == 'undefined') {
 
-                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
                 var result = res.body;
 
@@ -101,7 +101,7 @@ const announce = {
 
             if (tools.isNull(resultInfo) || resultInfo.length <= 0 || resultInfo == 'undefined') {
 
-                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
                 var result = res.body;
 
@@ -143,7 +143,7 @@ const announce = {
 
             if (tools.isNull(resultInfo) || resultInfo.length <= 0 || resultInfo == 'undefined') {
 
-                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                 var result = res.body;
 
                 //遍历并格式化日期

@@ -19,7 +19,7 @@ const task = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/v_handled_events_unq?_where=(username,like,~${username}~)~or(username,like,~${realname}~)&_p=${page}&_size=${size}&_sort=-create_time`;
         var result = {};
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             result = res.body;
             result = result.filter(item => { //遍历并格式化日期
@@ -75,7 +75,7 @@ const task = {
         var result = {};
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             result = res.body;
 
             try {
@@ -149,7 +149,7 @@ const task = {
         var result = {};
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             result = res.body;
 
             try {

@@ -29,7 +29,7 @@ const contact = {
         const queryDepartURL = `${window.BECONFIG['restAPI']}/api/${system_type}/wework_depart_list/${userinfo.main_department}`;
 
         //获取上级部门编号
-        const respDepart = await superagent.get(queryDepartURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+        const respDepart = await superagent.get(queryDepartURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
         //获取部门信息
         const department = respDepart.body.department.find(item => {
@@ -43,7 +43,7 @@ const contact = {
 
         try {
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //遍历并设置属性
             window.__.each(res.body.userlist, item => {
@@ -129,7 +129,7 @@ const contact = {
 
         try {
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //遍历并设置属性
             window.__.each(res.body, item => {
@@ -223,8 +223,8 @@ const contact = {
 
         try {
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
-            var count = await superagent.get(queryCountURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+            var count = await superagent.get(queryCountURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             //遍历并设置属性
@@ -367,7 +367,7 @@ const contact = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null) {
                 window.userMap.set(key, res.body);

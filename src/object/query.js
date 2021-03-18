@@ -16,7 +16,7 @@ const query = {
             result = storage.getStore(`system_v_user_info@username$${username}`);
             if (!(typeof result != 'undefined' && result != null && result != '')) {
                 //发送HTTP请求，获取返回值后，设置数据
-                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                 //设置返回结果
                 result = res.body;
                 //设置缓存数据，缓存时间，暂定为5秒钟
@@ -109,7 +109,7 @@ const query = {
         tableName = tableName.toLowerCase();
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?_where=(${field},eq,${value})`;
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
         } catch (err) {
             console.log(err);
@@ -135,7 +135,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 storage.setStore(`sys_user_cache@${tableName}&id${id}`, res.body[0], 2);
@@ -166,7 +166,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 storage.setStore(`sys_user_cache@${tableName}&pid${id}`, res.body, 2);
@@ -196,7 +196,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 storage.setStore(`sys_user_cache@bs_admin_group&groupname${name}`, res.body, 2);
@@ -226,7 +226,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 console.log(`mobile: ${JSON.stringify(res.body)}`);
@@ -258,7 +258,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 storage.setStore(`sys_message_cache##v1@${tableName}&wxid${wxid}_wxid_${wxid_}_maxid${maxId}`, res.body, 1);
@@ -287,7 +287,7 @@ const query = {
                 return cache.length > 0 ? cache[0] : '';
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
                 storage.setStore(`sys_seal_man_mail_cache#v1@${username}`, res.body, 1);
@@ -313,7 +313,7 @@ const query = {
 
         try {
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
 
         } catch (err) {
@@ -335,7 +335,7 @@ const query = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?${whereSQL}`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body[0];
         } catch (err) {
             console.log(err);
@@ -356,7 +356,7 @@ const query = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?${whereSQL}`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body[0];
         } catch (err) {
             console.log(err);
@@ -387,7 +387,7 @@ const query = {
 
         try {
 
-            var res = await queryTableDataByField('bs_hrmresource', 'loginid', userid); // await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await queryTableDataByField('bs_hrmresource', 'loginid', userid); // await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res != null && res.length > 0) {
                 storage.setStore(`sys_user_cache_account#queryemployee#@${userid}`, res[0], 3600 * 24 * 31);
@@ -460,7 +460,7 @@ const query = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body;
         } catch (err) {
@@ -474,7 +474,7 @@ const query = {
     async queryGoodsAdmin(username) {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/bs_goods_receive?_where=(create_by,eq,${username})~and(status,in,待处理,已领取,已完成)&_sort=-create_time&_p=0&_size=1`;
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body;
         } catch (err) {
@@ -488,7 +488,7 @@ const query = {
     async queryAdminAdress(name) {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/bs_admin_address?_where=(name,like,~${name}~)~and(status,eq,100)&_sort=-id`;
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body;
         } catch (err) {
@@ -506,7 +506,7 @@ const query = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log_history?_where=(table_name,eq,${tableName})~and(business_code,eq,000000000)~and(employee,eq,${username})&_sort=-operate_time`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body;
         } catch (err) {
@@ -526,7 +526,7 @@ const query = {
         var deleteURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/${id}`;
 
         try {
-            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
         } catch (err) {
             console.log(err);
@@ -548,7 +548,7 @@ const query = {
                 return cache;
             }
 
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             if (res.body != null && res.body.length > 0) {
 
@@ -596,7 +596,7 @@ const query = {
         }
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             console.log(res);
 

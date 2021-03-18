@@ -482,7 +482,7 @@ const wflowprocess = {
                 try {
                     receiveURL = encodeURIComponent(`${window.requestAPIConfig.vuechatdomain}/#/reward/rewardview?id=${bussinessNode.id}&pid=&tname=bs_reward_apply&panename=myrewardlist&typename=hr_admin_ids&bpm_status=4&proponents=${bussinessNode.hr_admin_ids}&role=hr`);
                     await superagent.get(`${window.BECONFIG['restAPI']}/api/v1/weappms/${bussinessNode.hr_admin_ids}/亲爱的同事，${bussinessNode.create_by}提交的奖罚申请流程已处理完毕：${bussinessNode["title"]}，内容：${bussinessNode['content']}，请及时进行知会确认操作！?type=reward&rurl=${receiveURL}`)
-                        .set('xid', tools.queryUniqueID()).set('accept', 'json');
+                        .set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                 } catch (error) {
                     console.log(error);
                 }
@@ -490,7 +490,7 @@ const wflowprocess = {
                 try {
                     receiveURL = encodeURIComponent(`${window.requestAPIConfig.vuechatdomain}/#/reward/rewardview?id=${bussinessCodeID}&pid=&tname=bs_reward_apply&panename=mytodolist&typename=wflow_done&bpm_status=4&proponents=${bussinessNode.create_by}`);
                     await superagent.get(`${window.BECONFIG['restAPI']}/api/v1/weappms/${bussinessNode.create_by}/亲爱的同事，您提交的奖罚申请流程已处理完毕：${bussinessNode["title"]}，内容：${bussinessNode['content']}！?type=reward&rurl=${receiveURL}`)
-                        .set('xid', tools.queryUniqueID()).set('accept', 'json');
+                        .set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                 } catch (error) {
                     console.log(error);
                 }
@@ -647,7 +647,7 @@ const wflowprocess = {
                     try {
                         const receiveURL = encodeURIComponent(`${window.requestAPIConfig.vuechatdomain}/#/reward/rewardview?id=${bussinessCodeID}&pid=&tname=bs_reward_apply&panename=mytodolist&typename=wflow_todo&bpm_status=2&proponents=${firstAuditor}`);
                         await superagent.get(`${window.BECONFIG['restAPI']}/api/v1/weappms/${firstAuditor}/亲爱的同事，您收到奖罚申请流程审批处理请求：${curRow["title"]}，内容：${curRow['content']}，请您及时进行审批处理！?type=reward&rurl=${receiveURL}`)
-                            .set('xid', tools.queryUniqueID()).set('accept', 'json');
+                            .set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                     } catch (error) {
                         console.log(error);
                     }
@@ -670,7 +670,7 @@ const wflowprocess = {
     async handleNotifyHR(user_group_ids, userinfo, value, receiveURL) {
         try {
             await superagent.get(`${window.BECONFIG['restAPI']}/api/v1/weappms/${user_group_ids}/亲爱的同事，员工‘${userinfo}’提交了的奖罚申请流程，请到奖惩申请服务进行流程审批操作！?type=reward&rurl=${receiveURL}`)
-                .set('xid', tools.queryUniqueID()).set('accept', 'json');
+                .set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (error) {
             console.log(error);
         }
@@ -822,7 +822,7 @@ const wflowprocess = {
                 try {
                     receiveURL = encodeURIComponent(`${window.requestAPIConfig.vuechatdomain}/#/reward/rewardview?id=${bussinessCodeID}&pid=&tname=bs_reward_apply&panename=mytodolist&typename=wflow_done&bpm_status=4&proponents=${bussinessNode.create_by}`);
                     await superagent.get(`${window.BECONFIG['restAPI']}/api/v1/weappms/${bussinessNode.create_by}/亲爱的同事，您提交的奖罚申请流程已被驳回：${bussinessNode["title"]}，内容：${bussinessNode['content']}，驳回意见：${message}，请修改申请内容后重新提交流程?type=reward&rurl=${receiveURL}`)
-                        .set('xid', tools.queryUniqueID()).set('accept', 'json');
+                        .set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                 } catch (error) {
                     console.log(error);
                 }

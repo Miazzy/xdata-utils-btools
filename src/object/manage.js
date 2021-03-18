@@ -17,7 +17,7 @@ const manage = {
         var wflow = [];
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             //如果只有一条数据，则返回[]；如果有多条数据，则返回多个数据
@@ -59,7 +59,7 @@ const manage = {
             ) {
                 while (index < 10000) {
                     queryURL = `${window.BECONFIG['xmysqlAPI']}/api/v_uname?_p=${index++}&_size=1000`;
-                    var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+                    var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
                     result = result.concat(res.body);
                     //如果返回结果数据小于size，则表示查询到末页，不在查询
                     if (res.body.length < 50) {
@@ -159,7 +159,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body[0];
         } catch (err) {
@@ -186,7 +186,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/bs_approve_node?_where=(name,eq,${node})`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res.body);
 
             if (
@@ -212,7 +212,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/sys_dict_item?_where=(dict_id,eq,${window.requestAPIConfig.PROCESS_NODE_DICT_ID})~and(item_value,eq,${node})`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             if (
@@ -276,10 +276,10 @@ const manage = {
         //发送post请求，保存数据
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
         return res.body;
@@ -311,10 +311,11 @@ const manage = {
 
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            node.id = Object.keys(node).includes('id') && Betools.tools.isNull(node.id) ? node.xid : node.id;
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
         return res.body;
@@ -328,7 +329,7 @@ const manage = {
 
         try {
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=(loginid,eq,~${id}~)~and(status,ne,5)&_fields=id,lastname,loginid`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=(loginid,eq,~${id}~)~and(status,ne,5)&_fields=id,lastname,loginid`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //返回用户信息
             return maxinfo.body[0]['lastname'];
@@ -342,7 +343,7 @@ const manage = {
 
         try {
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=(loginid,in,${ids})~and(status,ne,5)`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=(loginid,in,${ids})~and(status,ne,5)`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //返回用户信息
             return maxinfo.body;
@@ -366,7 +367,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(status,ne,5)~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(status,ne,5)~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -398,7 +399,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((name,like,~${name}~)~or(userid,like,~${name}~))~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((name,like,~${name}~)~or(userid,like,~${name}~))~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -430,7 +431,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((name,like,~${name}~)~or(userid,like,~${name}~))~and(mobile,eq,${mobile})~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((name,like,~${name}~)~or(userid,like,~${name}~))~and(mobile,eq,${mobile})~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -462,7 +463,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((lastname,like,~${name}~)~or(loginid,like,~${name}~))~and(seclevel,lt,${seclevel})`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -494,7 +495,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})&_fields=loginid`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})&_fields=loginid`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -526,7 +527,7 @@ const manage = {
         try {
 
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})~and(cname,eq,${cname})&_sort=id`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/v_hrmresource?_where=((loginid,in,${name}))~and(seclevel,lt,${seclevel})~and(cname,eq,${cname})&_sort=id`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             result = [...temp_.body];
 
@@ -554,7 +555,7 @@ const manage = {
             return [];
         }
         try {
-            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_admin_group?_where=(groupname,eq,COMMON_RECEIVE_BORROW)~and(address,like,~${name}~)`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var temp_ = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_admin_group?_where=(groupname,eq,COMMON_RECEIVE_BORROW)~and(address,like,~${name}~)`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             result = [...temp_.body];
             return result;
         } catch (error) {
@@ -576,7 +577,7 @@ const manage = {
 
         try {
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var maxinfo = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var maxinfo = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //剔除掉，没有loginid的用户信息
             maxinfo.body = maxinfo.body.filter(item => {
@@ -607,7 +608,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?${whereSQL}`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
         } catch (err) {
             console.log(err);
@@ -623,7 +624,7 @@ const manage = {
         tableName = tableName.toLowerCase();
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/count?${whereSQL}`;
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body[0]['no_of_rows'];
         } catch (err) {
             console.log(err);
@@ -640,7 +641,7 @@ const manage = {
             //构建查询SQL
             const sql = `${window.BECONFIG['xmysqlAPI']}/api/bs_seal_regist?_where=(contract_id,like,${prefix}~)~and(seal_type,eq,合同类)~and(status,in,已用印,已领取,移交前台,已完成,财务归档,档案归档,已归档)&_p=0&_size=8&_sort=-contract_id`;
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var maxinfo = await superagent.get(sql).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var maxinfo = await superagent.get(sql).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             //返回用户信息
             if (maxinfo && maxinfo.body && maxinfo.body.length >= 1) {
                 return maxinfo.body;
@@ -667,7 +668,7 @@ const manage = {
             //构建查询SQL 查询一年内，且不为[dayjs().subtract('1', 'year').format('YYYY')]的数据 
             const sql = `${window.BECONFIG['xmysqlAPI']}/api/bs_seal_regist?_where=((contract_id,like,${prefix}[${curYear}]~)~or(contract_id,like,${prefix}~${curYear}~))~and(contract_id,nlike,~[${year}]~)~and(create_time,gt,${month})~and(seal_type,eq,合同类)~and(status,in,待用印,已退回,已废弃,已用印,已领取,移交前台,已完成,财务归档,档案归档,已归档)&_p=0&_size=3&_sort=-contract_id`;
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            const maxinfo = await superagent.get(sql).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            const maxinfo = await superagent.get(sql).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             //返回用户信息
             if (maxinfo && maxinfo.body && maxinfo.body.length >= 1) {
@@ -688,7 +689,7 @@ const manage = {
 
         try {
             //如果用印登记类型为合同类，则查询最大印章编号，然后按序使用更大的印章编号
-            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_seal_regist?_where=(deal_manager,like,~${name}~)~and(deal_mail,like,~@~)&_size=1&_p=0`).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var maxinfo = await superagent.get(`${window.BECONFIG['xmysqlAPI']}/api/bs_seal_regist?_where=(deal_manager,like,~${name}~)~and(deal_mail,like,~@~)&_size=1&_p=0`).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             //返回用户信息
             return maxinfo.body[0];
         } catch (error) {
@@ -745,7 +746,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log_informed?_where=(table_name,eq,${tableName})~and(id,eq,${id})`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
             return res.body[0];
         } catch (err) {
@@ -763,7 +764,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_log?_where=(table_name,eq,${tableName})~and(business_data_id,eq,${businessID})&_sort=operate_time`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             return res.body;
@@ -782,7 +783,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/pr_rights?_where=(business,like,~${tableName}~)`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res.body);
 
             if (
@@ -816,7 +817,7 @@ const manage = {
         var vflag = false;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
 
             vflag = res.body.length;
 
@@ -879,10 +880,10 @@ const manage = {
 
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.patch(patchURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
 
@@ -899,10 +900,10 @@ const manage = {
 
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
         return res.body;
@@ -936,10 +937,10 @@ const manage = {
         //发送post请求，保存数据
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
 
@@ -981,7 +982,7 @@ const manage = {
         }
 
         try {
-            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             return res.body;
@@ -1025,7 +1026,7 @@ const manage = {
         }
 
         try {
-            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(res);
 
             return res.body;
@@ -1044,7 +1045,7 @@ const manage = {
         var vflag = false;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             vflag = res.body.length > 0 ? true : false;
         } catch (err) {
             console.log(err);
@@ -1062,10 +1063,10 @@ const manage = {
         var res = null;
         try {
             node.xid = tools.queryUniqueID();
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
-            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            res = await superagent.post(postURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             console.log(err);
         }
         return res.body;
@@ -1085,7 +1086,7 @@ const manage = {
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?_where=(${field},eq,${value})`;
 
         try {
-            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
         } catch (err) {
             console.log(err);
@@ -1104,7 +1105,7 @@ const manage = {
         var deleteURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/${id}`;
 
         try {
-            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('accept', 'json');
+            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
         } catch (err) {
             console.log(err);
