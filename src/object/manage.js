@@ -1120,7 +1120,9 @@ const manage = {
                 return false; //已经上锁，不能执行操作
             } else { //未上锁，执行操作
                 const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
-                tempList.map((item) => { Betools.manage.deleteTableData("bs_lock_info", item.id) });
+                for (const item of tempList) {
+                    await Betools.manage.deleteTableData("bs_lock_info", item.id);
+                }
                 const elem = { //新增本条lock_name数据，上锁
                     id: tools.queryUniqueID(),
                     lock_name: lockName,
