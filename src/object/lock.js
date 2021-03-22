@@ -7,7 +7,7 @@ const lock = {
      * @param {*} lockName
      * @param {*} lockMS
      */
-    async lock(lockName = 'crontab_task', lockMS = 24 * 3600 * 1000, lockOperator = '', time = null) {
+    async lock(lockName = 'crontab_task', lockMS = 100000, lockOperator = '', time = null) {
         try {
             const ctime = time ? time : dayjs().format('YYYY-MM-DD HH:mm:ss');
             const lockList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
