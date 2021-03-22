@@ -1112,9 +1112,9 @@ const manage = {
      * @param {*} tableName
      * @param {*} id
      */
-    async lock(lockName = 'crontab_task', lockMS = 100 * 1000, lockOperator = '') {
+    async lock(lockName = 'crontab_task', lockMS = 100000, lockOperator = '') {
         try {
-            const ctime = dayjs().format('YYYY-MM-DD hh:mm:ss');
+            const ctime = dayjs().format('YYYY-MM-DD HH:mm:ss');
             const lockList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
             if (lockList && lockList.length > 0) {
                 return false; //已经上锁，不能执行操作
