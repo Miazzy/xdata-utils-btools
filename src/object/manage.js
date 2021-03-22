@@ -1112,7 +1112,7 @@ const manage = {
      * @param {*} tableName
      * @param {*} id
      */
-    async lock(lockName = 'crontab_task', lockMS = 24 * 3600 * 1000, lockOperator = '') {
+    async lock(lockName = 'crontab_task', lockMS = 100 * 1000, lockOperator = '') {
         try {
             const ctime = dayjs().format('YYYY-MM-DD hh:mm:ss');
             const lockList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
@@ -1126,8 +1126,8 @@ const manage = {
                     lock_name: lockName,
                     lock_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     lock_value: '',
-                    expire_time: dayjs().add(1, 'millisecond').format('YYYY-MM-DD HH:mm:ss'),
-                    expire_timestamp: lockMS || 24 * 3600 * 1000,
+                    expire_time: dayjs().add(lockMS, 'millisecond').format('YYYY-MM-DD HH:mm:ss'),
+                    expire_timestamp: lockMS || 100000,
                     lock_remark: '',
                     content: '',
                     status: 1,
