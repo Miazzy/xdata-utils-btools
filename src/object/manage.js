@@ -1129,7 +1129,6 @@ const manage = {
                     lock_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     lock_value: '',
                     expire_time: dayjs().add(lockMS, 'millisecond').format('YYYY-MM-DD HH:mm:ss'),
-                    expire_timestamp: lockMS || 100000,
                     lock_remark: '',
                     content: '',
                     status: 1,
