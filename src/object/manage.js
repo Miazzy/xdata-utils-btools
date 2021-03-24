@@ -1157,6 +1157,24 @@ const manage = {
         }
     },
 
+    // 查询首页图片
+    async queryImagesUrl(type = 'APP') {
+        try {
+            const userinfo = await Betools.storage.getStore('system_userinfo'); //获取当前登录用户信息
+            let whereSQL = null; //查询SQL
+            let images = await Betools.storage.getStore('system_app_image'); // 获取缓存中的图片
+            if (!images) { // 如果存在图片数据，则直接使用图片数据
+                whereSQL = userinfo && userinfo.userid == 9058 ? `~and(create_by,eq,zhaoziyu)~and(bpm_status,in,4,5)~and(type,eq,${type})` : `~and(bpm_status,in,4,5)~and(create_by,in,admin,manager)~and(type,eq,${type})`;
+                images = await Betools.query.queryTableDataByWhereSQL('bs_home_pictures', `_where=(status,in,3)${whereSQL}&_fields=files&_sort=-id`);
+                images.map(item => { item.files = `https://upload.yunwisdom.club:30443/${item.files}`; });
+                Betools.storage.setStore('system_app_image', JSON.stringify(images), 3600 * 24 * 3);
+            }
+            return images;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
     /**
      * 执行记录日志(分布式锁)
      * @param {*} tableName
