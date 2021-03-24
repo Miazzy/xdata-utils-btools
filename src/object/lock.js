@@ -43,7 +43,9 @@ const lock = {
     async unlock(lockName = 'crontab_task') {
         try {
             const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
-            tempList.map((item) => { Betools.manage.deleteTableData("bs_lock_info", item.id) });
+            for (const item of tempList) {
+                await Betools.manage.deleteTableData("bs_lock_info", item.id);
+            }
             return true;
         } catch (error) {
             return false;
