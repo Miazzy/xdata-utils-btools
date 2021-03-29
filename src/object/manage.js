@@ -1136,6 +1136,30 @@ const manage = {
     },
 
     /**
+     * 查询公司数据
+     * @param {*} searchkey
+     * @param {*} data
+     */
+    async queryCompanyData(searchkey = '', data = []) {
+        try {
+            if (searchkey && searchkey.length >= 2) {
+                data = await Betools.manage.queryTableData('bs_company_flow_base', `_where=(status,in,0)~and(level,gt,2)~and(name,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+                data.map((item, index) => {
+                    item.title = item.name.slice(0, 24);
+                    item.code = item.id;
+                    item.tel = '';
+                    item.name = item.name;
+                    item.isDefault = false;
+                });
+            }
+            return data;
+        } catch (error) {
+            console.log(err);
+            return [];
+        }
+    },
+
+    /**
      * 股权管理平台查询用户数据
      * @param {*} data
      * @param {*} value
