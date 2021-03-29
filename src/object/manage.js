@@ -1089,6 +1089,37 @@ const manage = {
     },
 
     /**
+     * 查询用户数据
+     * @param {*} searchkey
+     * @param {*} data
+     */
+    async queryUserData(searchkey = '', data = []) {
+        try {
+            if (searchkey && searchkey.length >= 2) {
+                data = await Betools.manage.queryTableData('bs_hrmresource', `_where=(status,in,0,1,2,3,4)~and(lastname,like,~${searchkey}~)&_sort=id&_p=0&_size=100`); // 获取最近12个月的已用印记录
+                data.map((item, index) => {
+                    item.code = item.id;
+                    item.tel = '';
+                    item.name = item.lastname;
+                    item.departName = item.textfield1 && item.textfield1.includes('||') ? item.textfield1.split('||')[1] : '';
+                    item.title = `${item.lastname} ${item.departName}`;
+                    item.isDefault = false;
+                });
+                data = data.filter((item, index, self) => {
+                    const findex = self.findIndex((element) => {
+                        return element.loginid == item.loginid;
+                    })
+                    return findex == index;
+                });
+            }
+            return data;
+        } catch (err) {
+            console.log(err);
+            return [];
+        }
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
