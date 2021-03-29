@@ -1181,6 +1181,31 @@ const manage = {
     },
 
     /**
+     * 查询公司及用户数据
+     * @param {*} searchkey
+     * @param {*} data
+     */
+    async queryCommonData(searchkey = '', data = [], type = 'company' /** company|user */ ) {
+        let list = [];
+        try {
+            if (searchkey && searchkey.length >= 2) {
+                if (type == 'user') {
+                    data = await Betools.manage.queryUserData(searchkey, data);
+                    list.concat(data);
+                }
+                if (type == 'company') {
+                    data = await Betools.manage.queryCompanyData(searchkey, data);
+                    list.concat(data);
+                }
+            }
+            return list;
+        } catch (error) {
+            console.log(err);
+            return [];
+        }
+    },
+
+    /**
      * 股权管理平台查询用户数据
      * @param {*} data
      * @param {*} value
