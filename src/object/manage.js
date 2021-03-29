@@ -1242,7 +1242,7 @@ const manage = {
      * @param {*} key
      * @param {*} fieldKey
      */
-    async commonCompanySearch(data, value, key, fieldKey) {
+    async commonCompanySearch(data, value, key, fieldKey, state) {
         const searchkey = value[key];
         data = await Betools.manage.queryCompanyData(searchkey, []);
         state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
