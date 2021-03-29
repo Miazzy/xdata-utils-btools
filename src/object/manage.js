@@ -1136,6 +1136,21 @@ const manage = {
     },
 
     /**
+     * 股权管理平台查询用户数据
+     * @param {*} data
+     * @param {*} value
+     * @param {*} key
+     * @param {*} fieldKey
+     */
+    async commonStockSearch(data, value, key, fieldKey, state) {
+        const searchkey = value[key];
+        data = await Betools.manage.queryUserData(searchkey, []);
+        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        state.tag.showKey = key;
+        state[fieldKey + 'Columns'] = data;
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
