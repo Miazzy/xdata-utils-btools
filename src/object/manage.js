@@ -827,6 +827,7 @@ const manage = {
      * @param {*} tableName
      * @param {*} field
      * @param {*} value
+     * @param {*} _fields
      */
     async queryTableFieldValue(tableName, field, value, _fields = '') {
         //如果存在查询字段，则拼接语句
@@ -835,6 +836,29 @@ const manage = {
         tableName = tableName.toLowerCase();
         //查询URL GET	/apis/tableName/:id/exists	True or false whether a row exists or not  /apis/tableName/findOne
         var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?_where=(${field},eq,${value})${_fields}`;
+        //查询标识
+        try {
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
+     * 查询数据库某表是否存在field字段为value值的数据Count
+     * @param {*} tableName
+     * @param {*} field
+     * @param {*} value
+     * @param {*} _fields
+     */
+    async queryTableFieldValueCount(tableName, field, value, _fields = '') {
+        //如果存在查询字段，则拼接语句
+        _fields = _fields ? `&_fields=${_fields}` : '';
+        //大写转小写
+        tableName = tableName.toLowerCase();
+        //查询URL GET	/apis/tableName/:id/exists	True or false whether a row exists or not  /apis/tableName/findOne
+        var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/count?_where=(${field},eq,${value})${_fields}`;
         //查询标识
         try {
             var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
