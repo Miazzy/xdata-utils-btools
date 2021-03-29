@@ -823,6 +823,28 @@ const manage = {
     },
 
     /**
+     * 查询数据库某表是否存在field字段为value值的数据
+     * @param {*} tableName
+     * @param {*} field
+     * @param {*} value
+     */
+    async queryTableFieldValue(tableName, field, value, _fields = '') {
+        //如果存在查询字段，则拼接语句
+        _fields = _fields ? `&_fields=${_fields}` : '';
+        //大写转小写
+        tableName = tableName.toLowerCase();
+        //查询URL GET	/apis/tableName/:id/exists	True or false whether a row exists or not  /apis/tableName/findOne
+        var queryURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?_where=(${field},eq,${value})${_fields}`;
+        //查询标识
+        try {
+            var res = await superagent.get(queryURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
      * @description 将当前自由流程的数据转移到历史数据中
      * @param {*} id
      */
