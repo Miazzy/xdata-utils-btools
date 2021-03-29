@@ -1196,6 +1196,21 @@ const manage = {
     },
 
     /**
+     * 股权管理平台查询公司数据
+     * @param {*} data
+     * @param {*} value
+     * @param {*} key
+     * @param {*} fieldKey
+     */
+    async commonCompanySearch(data, value, key, fieldKey) {
+        const searchkey = value[key];
+        data = await Betools.manage.queryCompanyData(searchkey, []);
+        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        state.tag.showKey = key;
+        state[fieldKey + 'Columns'] = data;
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
