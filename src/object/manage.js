@@ -1251,6 +1251,25 @@ const manage = {
     },
 
     /**
+     * 股权管理平台查询公司/用户数据
+     * @param {*} data
+     * @param {*} value
+     * @param {*} key
+     * @param {*} fieldKey
+     */
+    async commonDataSearch(data, value, key, fieldKey, state, type = 'company') {
+        const searchkey = value[key];
+        if (type == 'company') {
+            data = await Betools.manage.queryCompanyData(searchkey, []);
+        } else if (type == 'user') {
+            data = await Betools.manage.queryUserData(searchkey, []);
+        }
+        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        state.tag.showKey = key;
+        state[fieldKey + 'Columns'] = data;
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
