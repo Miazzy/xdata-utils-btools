@@ -1316,6 +1316,33 @@ const manage = {
     },
 
     /**
+     * 股权管理平台查询公司/用户数据确认
+     * @param {*} index
+     * @param {*} value
+     * @param {*} key
+     * @param {*} item
+     */
+    async commonDataConfirm(index, value, key, item) {
+
+        state.radio[key] = index;
+        item[key.replace(/Name/g, '')] = item[key] = value['lastname'] || value['name'] || value;
+        state.tag['show' + Betools.manage.prefixUpperCase(key)] = false;
+
+        if (key == 'companyName') {
+            //检查公司名是否已经存在 //校验公司名称,如果已经存在此公司名称，需要给出提示
+            const companyNameCount = await Betools.manage.queryTableFieldValueCount('bs_company_flow_data', 'companyName', state.item.companyName);
+            if (companyNameCount && companyNameCount.length > 0 && companyNameCount[0]['no_of_rows'] > 0) {
+                Dialog.confirm({
+                    title: '温馨提示',
+                    message: '已经存在此公司的基础数据，请勿重复提交！',
+                });
+                item[key.replace(/Name/g, '')] = item[key] = '';
+            }
+        }
+
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
