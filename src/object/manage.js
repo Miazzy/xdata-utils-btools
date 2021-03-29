@@ -1322,7 +1322,7 @@ const manage = {
      * @param {*} key
      * @param {*} item
      */
-    async commonDataConfirm(index, value, key, item) {
+    async commonDataConfirm(index, value, key, item, state) {
 
         state.radio[key] = index;
         item[key.replace(/Name/g, '')] = item[key] = value['lastname'] || value['name'] || value;
