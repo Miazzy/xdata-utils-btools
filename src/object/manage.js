@@ -1097,6 +1097,14 @@ const manage = {
     },
 
     /**
+     * 首字母大写
+     * @param {*} str
+     */
+    prefixUpperCase(str) {
+        return String.fromCharCode(str.charCodeAt(0) - 32) + str.slice(1);
+    },
+
+    /**
      * 查询用户数据
      * @param {*} searchkey
      * @param {*} data
