@@ -1160,6 +1160,20 @@ const manage = {
     },
 
     /**
+     * 查询公司及用户数据
+     * @param {*} searchkey
+     * @param {*} data
+     */
+    async queryCompanyAndUserData(searchkey = '', data = []) {
+        let list = [];
+        data = await Betools.manage.queryUserData(searchkey, data);
+        list.concat(data);
+        data = await Betools.manage.queryCompanyData(searchkey, data);
+        list.concat(data);
+        return list;
+    },
+
+    /**
      * 股权管理平台查询用户数据
      * @param {*} data
      * @param {*} value
