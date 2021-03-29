@@ -1089,6 +1089,14 @@ const manage = {
     },
 
     /**
+     * 首字母大写
+     * @param {*} str
+     */
+    initialUpperCase(str) {
+        return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase()); // 执行代码
+    },
+
+    /**
      * 查询用户数据
      * @param {*} searchkey
      * @param {*} data
