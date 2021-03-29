@@ -1166,11 +1166,18 @@ const manage = {
      */
     async queryCompanyAndUserData(searchkey = '', data = []) {
         let list = [];
-        data = await Betools.manage.queryUserData(searchkey, data);
-        list.concat(data);
-        data = await Betools.manage.queryCompanyData(searchkey, data);
-        list.concat(data);
-        return list;
+        try {
+            if (searchkey && searchkey.length >= 2) {
+                data = await Betools.manage.queryUserData(searchkey, data);
+                list.concat(data);
+                data = await Betools.manage.queryCompanyData(searchkey, data);
+                list.concat(data);
+            }
+            return list;
+        } catch (error) {
+            console.log(err);
+            return [];
+        }
     },
 
     /**
