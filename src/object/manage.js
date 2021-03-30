@@ -1377,8 +1377,6 @@ const manage = {
             }
         }
 
-        debugger;
-
     },
 
     /**
