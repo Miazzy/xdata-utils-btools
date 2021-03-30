@@ -1338,7 +1338,7 @@ const manage = {
         } else if (type == 'user') {
             data = await Betools.manage.queryUserData(searchkey, []);
         } else if (type == 'company_ic') {
-            data = await Betools.manage.queryUserData(searchkey, []);
+            data = await Betools.manage.queryCompanyICData(searchkey, []);
         }
         state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
         state.tag.showKey = key;
