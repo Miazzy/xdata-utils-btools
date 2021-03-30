@@ -1206,6 +1206,30 @@ const manage = {
     },
 
     /**
+     * 查询公司工商数据
+     * @param {*} searchkey
+     * @param {*} data
+     */
+    async queryCompanyICData(searchkey = '', data = []) {
+        try {
+            if (searchkey && searchkey.length >= 2) {
+                data = await Betools.manage.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+                data.map((item, index) => {
+                    item.title = item.companyName.slice(0, 24);
+                    item.code = item.id;
+                    item.tel = '';
+                    item.name = item.companyName;
+                    item.isDefault = false;
+                });
+            }
+            return data;
+        } catch (error) {
+            console.log(err);
+            return [];
+        }
+    },
+
+    /**
      * 查询公司及用户数据
      * @param {*} searchkey
      * @param {*} data
@@ -1241,6 +1265,10 @@ const manage = {
                 }
                 if (type == 'company') {
                     data = await Betools.manage.queryCompanyData(searchkey, data);
+                    list.concat(data);
+                }
+                if (type == 'company_ic') {
+                    data = await Betools.manage.queryCompanyICData(searchkey, data);
                     list.concat(data);
                 }
             }
