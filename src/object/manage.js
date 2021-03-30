@@ -1325,7 +1325,14 @@ const manage = {
     async commonDataConfirm(index, value, key, item, state, Dialog) {
 
         state.radio[key] = index;
-        item[key.replace(/Name/g, '')] = item[key] = value['lastname'] || value['name'] || value;
+
+        if (value && !Betools.tools.isNull(value['lastname'])) {
+            item[key.replace(/Name/g, '')] = item[key] = value['lastname']
+        } else if (value && !Betools.tools.isNull(value['name'])) {
+            item[key.replace(/Name/g, '')] = item[key] = value['name']
+        } else {
+            item[key.replace(/Name/g, '')] = item[key] = value;
+        }
         state.tag['show' + Betools.manage.prefixUpperCase(key)] = false;
 
         if (key == 'companyName') {
