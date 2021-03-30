@@ -1352,7 +1352,7 @@ const manage = {
      * @param {*} key
      * @param {*} item
      */
-    async commonDataConfirm(index, value, key, item, state, Dialog) {
+    async commonDataConfirm(index, value, key, item, state, Dialog, type = 'company') {
 
         state.radio[key] = index;
 
@@ -1365,7 +1365,7 @@ const manage = {
         }
         state.tag['show' + Betools.manage.prefixUpperCase(key)] = false;
 
-        if (key == 'companyName') {
+        if (key == 'companyName' && type == 'company') {
             //检查公司名是否已经存在 //校验公司名称,如果已经存在此公司名称，需要给出提示
             const companyNameCount = await Betools.manage.queryTableFieldValueCount('bs_company_flow_data', 'companyName', state.item.companyName);
             if (companyNameCount && companyNameCount.length > 0 && companyNameCount[0]['no_of_rows'] > 0) {
