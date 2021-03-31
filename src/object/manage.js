@@ -883,10 +883,10 @@ const manage = {
             let wflist = await manageAPI.queryHisFreeWorkflow(id);
 
             //将历史数据插入到历史自由流程表中
-            let wcode = await manageAPI.insertTableData("bs_free_process_h", wflist);
+            let wcode = await postTableData("bs_free_process_h", wflist);
 
             //删除当前自由流程表中历史数据
-            result = await manageAPI.deleteTableItem("bs_free_process", wflist);
+            result = await deleteTableData("bs_free_process", wflist);
 
             //打印返回结果
             console.log("result :" + result + " wcode :" + wcode);
@@ -1390,6 +1390,24 @@ const manage = {
         //Post数据的URL地址
         var deleteURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/${id}`;
 
+        try {
+            var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+            return res.body;
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    /**
+     * 添加数据
+     * @param {*} tableName
+     * @param {*} id
+     */
+    async deleteTableDataByWhere(tableName, fieldName, fieldValue) {
+        //大写转小写
+        tableName = tableName.toLowerCase();
+        //delete数据的URL地址
+        var deleteURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}?fieldName=${fieldName}&fieldValue=${fieldValue}`;
         try {
             var res = await superagent.delete(deleteURL).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
             return res.body;
