@@ -321,6 +321,34 @@ const manage = {
         return res.body;
     },
 
+    /**
+     * @description 提交并持久化数据到服务器
+     */
+    async multiTableData(tableName, node, res = null) {
+
+        //大写转小写
+        tableName = tableName.toLowerCase();
+        //Post数据的URL地址
+        var insertURL = `${window.BECONFIG['xmysqlAPI']}/api/${tableName}/multi`;
+        //设置node为value
+        const value = node;
+
+        //设置时间格式
+        Object.keys(value).map(key => {
+            value[key] = key.includes('_time') && value[key] ? dayjs(value[key]).format('YYYY-MM-DD HH:mm:ss') : value[key];
+        })
+
+        try {
+            node.xid = tools.queryUniqueID();
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+        } catch (err) {
+            delete node.xid;
+            res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
+            console.log(err);
+        }
+        return res.body;
+    },
+
     async queryUsernameByID(id) {
         if (!id) {
             return '';
