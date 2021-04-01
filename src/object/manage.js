@@ -1216,7 +1216,7 @@ const manage = {
      */
     async queryCompanyData(searchkey = '', data = []) {
         try {
-            if (searchkey && searchkey.length >= 2) {
+            if (searchkey && searchkey.length >= 0) {
                 data = await Betools.manage.queryTableData('bs_company_flow_base', `_where=(status,in,0)~and(level,gt,2)~and(name,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
                 data.map((item, index) => {
                     item.title = item.name.slice(0, 24);
@@ -1240,7 +1240,7 @@ const manage = {
      */
     async queryCompanyICData(searchkey = '', data = []) {
         try {
-            if (searchkey && searchkey.length >= 2) {
+            if (searchkey && searchkey.length >= 0) {
                 data = await Betools.manage.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
                 data.map((item, index) => {
                     item.title = item.companyName.slice(0, 24);
