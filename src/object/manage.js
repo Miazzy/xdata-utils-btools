@@ -1697,6 +1697,9 @@ const manage = {
         }
     },
 
+    /**
+     * 获取城市数据
+     */
     async queryCity() {
         return [{
                 "text": "安徽省",
