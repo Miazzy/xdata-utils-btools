@@ -1395,6 +1395,7 @@ const manage = {
         }
         state.tag['show' + this.prefixUpperCase(key)] = false;
 
+        //查询公司信息
         if (key == 'companyName' && type == 'company') {
             //检查公司名是否已经存在 //校验公司名称,如果已经存在此公司名称，需要给出提示
             const companyNameCount = await this.queryTableFieldValueCount('bs_company_flow_data', 'companyName', state.item.companyName);
@@ -1405,6 +1406,13 @@ const manage = {
                 });
                 item[key.replace(/Name/g, '')] = item[key] = '';
             }
+        }
+
+        //如果confirm了公司名称，需要带出公司的基础信息
+        if (key == 'companyName' && type == 'company_ic') {
+            const element = state.companyNameColumns.find((item) => { return item.companyName == value });
+            const { directorChairman, director, directorExecutive, manager, supervisorChairman, supervisor } = element;
+            state.director = { directorChairman, director, directorExecutive, manager, supervisorChairman, supervisor };
         }
 
     },
