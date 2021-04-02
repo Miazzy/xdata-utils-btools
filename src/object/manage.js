@@ -1681,6 +1681,72 @@ const manage = {
     },
 
     /**
+     * 录入董监高确认
+     * @param {*} result 
+     * @param {*} elem 
+     * @param {*} nodes 
+     */
+    async confirmCompanyDirector(result = null, elem = null, nodes = [], state, Dialog, returnBack) {
+
+        //查询公司名称
+        const company = state.companyNameColumns.find((item) => { return item.name == state.item.companyName });
+
+        //董监高对象数据
+        elem = {
+            id: company.id,
+            ...state.director,
+        };
+
+        //提交申请确认
+        Dialog.confirm({
+            title: '确认提交录入董监高申请？',
+            message: `董事长:${state.director.directorChairman}，董事:${state.director.director}\n\r执行董事:${state.director.directorExecutive}，总经理:${state.director.manager}\n\r监事会主席:${state.director.supervisorChairman}，监事:${state.director.supervisor}\n\r点击‘确认’后提交录入董监高申请！`,
+        }).then(async() => { // on confirm
+
+            //向表单提交form对象数据（董监高）
+            result = await Betools.manage.patchTableData('bs_company_flow_data', elem.id, elem);
+
+            //如果提交修改数据成功，则新增id的bs_company_flow_manager数据数据
+            if (result.protocol41 == true && result.affectedRows > 0) {
+
+                //删除pid为elem.id的bs_company_flow_manager数据
+                result = await Betools.manage.deleteTableDataByWhere('bs_company_flow_manager', 'pid', elem.id);
+
+                //检查董监高信息
+                if (result.protocol41 == true && state.director && (state.director.supervisor || state.director.manager || state.director.supervisorChairman || state.director.director || state.director.directorExecutive || state.director.directorChairman)) {
+                    //设置stock信息，即公司A拥有董监高B //类型 100 股东 200 董事长 300 董事 400 执行董事 500 总经理 600 监事会主席 700 监事 800 法人代表
+                    for (let name in state.director) {
+                        const element = {
+                            id: Betools.tools.queryUniqueID(),
+                            pid: elem.id,
+                            baseID: company.baseID,
+                            managerName: state.director[name],
+                            type: state.type[name],
+                            typeName: name,
+                            positionName: state.position[name],
+                            companyName: state.item.companyName,
+                        }
+                        nodes.push(element);
+                    }
+                    result = await Betools.manage.postTableData('bs_company_flow_manager', nodes);
+                    await Betools.tools.sleep(Math.random() * 10);
+                }
+
+                //提示用户操作成功，并返回上一页
+                await Dialog.confirm({ title: '提交录入董监高申请成功！', });
+                await Betools.tools.sleep(300);
+                await returnBack();
+            } else {
+                await Dialog.confirm({
+                    title: `提交录入申请失败，请联系管理员进行处理，Error:[${JSON.stringify(result)}]！`,
+                });
+            }
+
+        });
+
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
