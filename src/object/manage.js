@@ -1466,6 +1466,40 @@ const manage = {
         });
     },
 
+    //数据校验
+    async checkDataCompanyAdd(element, type) {
+        if (type == 'company') {
+            //校验公司名称,如果已经存在此公司名称，需要给出提示
+            //校验所属行业
+            //校验所属区域
+            //校验登记状态
+            //校验营业执照
+            //校验经营范围
+            //校验注册地址
+            //校验注册资本
+            //校验实缴资本
+            //校验营业期限
+            //校验公司类型
+            //校验设立原因
+            //校验使用情况
+            //校验法人代表
+            //校验印章保管人
+            //校验备案联络员
+            //校验财务负责人
+            //校验备注信息
+        } else if (type == 'director') {
+            //校验董事长
+            //校验董事
+            //校验执行董事
+            //校验总经理
+            //校验监事会主席
+            //校验监事
+        } else if (type == 'stock') {
+            //如果没有数据，则提交股东信息
+            //如果有数据，校验股东信息及占股比例
+        }
+    },
+
     /**
      * 确认函数 CompanyAdd
      * @param {*} elem 
@@ -1501,7 +1535,7 @@ const manage = {
             try {
                 //第一步，执行数据校验
                 console.log(`第一步，执行数据校验`);
-                validResult = await checkData(elem, 'company');
+                validResult = await Betools.manage.checkDataCompanyAdd(elem, 'company');
 
                 //第二步，检查是否有股东信息，如果有股东、董监高信息，则需要提交股东、董监高信息
                 console.log(`第二步，检查是否有股东信息，如果有股东、董监高信息，则需要提交股东、董监高信息`);
