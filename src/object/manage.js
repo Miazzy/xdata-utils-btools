@@ -1408,6 +1408,51 @@ const manage = {
     },
 
     /**
+     * 搜索公司信息
+     * @param {*} data 
+     * @param {*} key 
+     * @param {*} time 
+     * @param {*} curtime 
+     * @param {*} cacheKey 
+     */
+    async companySearch(data, key, time, curtime = new Date().getTime() / 1000, cacheKey = 'system_app_home_company_data', state) {
+        time = Betools.storage.getStore(`${cacheKey}_expire`) || 0;
+        data = Betools.storage.getStore(`${cacheKey}`);
+        //如果缓存中没有获取到数据，则直接查询服务器
+        if (Betools.tools.isNull(data) || data.length == 0) {
+            data = await companySearchData(data, key, cacheKey);
+            console.log(`storage cache : ${curtime}`);
+        }
+        //如果存在state,则设置state属性
+        if (state) {
+            state.companyColumns = data;
+        }
+        //如果缓存时间快到期，则重新查询数据
+        if ((time - 3600 * 23.95) < curtime) {
+            data = await companySearchData(data, key, cacheKey);
+            console.log(`refresh cache : ${curtime}`);
+        }
+        return data;
+    },
+
+    /**
+     * 查询公司工商数据
+     * @param {*} data 
+     * @param {*} key 
+     * @param {*} cacheKey 
+     * @returns 
+     */
+    async companySearchData(data, key, cacheKey) {
+        data = await Betools.manage.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${key}~)&_sort=-id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+        data.map(item => {
+            item.establish_time = dayjs(item.establish_time).format('YYYY-MM-DD');
+        });
+        Betools.storage.setStore(`${cacheKey}`, JSON.stringify(data), 3600 * 24);
+        return data;
+    },
+
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
