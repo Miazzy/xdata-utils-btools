@@ -1589,6 +1589,62 @@ const manage = {
     },
 
     /**
+     * 下一步函数 CompanyAdd
+     * @param {*} state 
+     * @param {*} checkValid 
+     * @param {*} Dialog 
+     * @param {*} confirm 
+     */
+    async nextstepCompanyAdd(state, checkValid, Dialog, confirm) {
+        if (state.step == 'one') {
+            //此次校验，公司基础信息是否填写完整
+            const invalidKeys = checkValid(state.item);
+            if (Betools.tools.isNull(invalidKeys)) {
+                state.step = 'two'
+            } else {
+                Dialog.confirm({
+                    title: '请填写完公司设立信息后进行下一步！',
+                    message: `请检查缺失信息：${invalidKeys}`
+                })
+            }
+        } else if (state.step == 'two') {
+            //此次校验，公司的董事信息是否填写完整
+            const invalidKeys = checkValid(state.director);
+            if (Betools.tools.isNull(invalidKeys)) {
+                state.step = 'three'
+            } else {
+                Dialog.confirm({
+                    title: '请填写完公司董事信息后进行下一步！',
+                    message: `请检查缺失信息：${invalidKeys}`
+                })
+            }
+        } else if (state.step == 'three') {
+            const elem = {
+                id: Betools.tools.queryUniqueID(),
+                ...state.item,
+                ...state.director
+            };
+            console.log(`elemnt:`, JSON.stringify(elem));
+            await confirm(elem, null, null);
+        }
+    },
+
+    /**
+     * 上一步函数
+     * @param {*} state 
+     * @param {*} cancel 
+     */
+    async prestepCompanyAdd(state, cancel) {
+        if (state.step == 'three') {
+            state.step = 'two'
+        } else if (state.step == 'two') {
+            state.step = 'one'
+        } else if (state.stop == 'one') {
+            await cancel();
+        }
+    },
+
+    /**
      * 添加数据
      * @param {*} tableName
      * @param {*} id
