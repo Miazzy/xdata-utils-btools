@@ -1,5 +1,7 @@
 var { storage } = require('./storage');
+var { query } = require('./query');
 var { tools } = require('./tools');
+var { workflow } = require('./workflow');
 
 const manage = {
 
@@ -311,7 +313,7 @@ const manage = {
 
         try {
             node.xid = tools.queryUniqueID();
-            node.id = Object.keys(node).includes('id') && Betools.tools.isNull(node.id) ? node.xid : node.id;
+            node.id = Object.keys(node).includes('id') && tools.isNull(node.id) ? node.xid : node.id;
             res = await superagent.post(insertURL).send(node).set('xid', tools.queryUniqueID()).set('id', tools.queryUniqueID()).set('accept', 'json');
         } catch (err) {
             delete node.xid;
@@ -1186,7 +1188,7 @@ const manage = {
     async queryUserData(searchkey = '', data = []) {
         try {
             if (searchkey && searchkey.length >= 2) {
-                data = await Betools.manage.queryTableData('bs_hrmresource', `_where=(status,in,0,1,2,3,4)~and(lastname,like,~${searchkey}~)&_sort=id&_p=0&_size=100`); // 获取最近12个月的已用印记录
+                data = await this.queryTableData('bs_hrmresource', `_where=(status,in,0,1,2,3,4)~and(lastname,like,~${searchkey}~)&_sort=id&_p=0&_size=100`); // 获取最近12个月的已用印记录
                 data.map((item, index) => {
                     item.code = item.id;
                     item.tel = '';
@@ -1217,7 +1219,7 @@ const manage = {
     async queryCompanyData(searchkey = '', data = []) {
         try {
             if (searchkey && searchkey.length >= 0) {
-                data = await Betools.manage.queryTableData('bs_company_flow_base', `_where=(status,in,0)~and(level,gt,2)~and(name,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+                data = await this.queryTableData('bs_company_flow_base', `_where=(status,in,0)~and(level,gt,2)~and(name,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
                 data.map((item, index) => {
                     item.title = item.name.slice(0, 24);
                     item.code = item.id;
@@ -1241,7 +1243,7 @@ const manage = {
     async queryCompanyICData(searchkey = '', data = []) {
         try {
             if (searchkey && searchkey.length >= 0) {
-                data = await Betools.manage.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+                data = await this.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${searchkey}~)&_sort=id&_p=0&_size=30`); // 获取最近12个月的已用印记录
                 data.map((item, index) => {
                     item.title = item.companyName.slice(0, 24);
                     item.code = item.id;
@@ -1266,9 +1268,9 @@ const manage = {
         let list = [];
         try {
             if (searchkey && searchkey.length >= 2) {
-                data = await Betools.manage.queryUserData(searchkey, data);
+                data = await this.queryUserData(searchkey, data);
                 list.concat(data);
-                data = await Betools.manage.queryCompanyData(searchkey, data);
+                data = await this.queryCompanyData(searchkey, data);
                 list.concat(data);
             }
             return list;
@@ -1288,15 +1290,15 @@ const manage = {
         try {
             if (searchkey && searchkey.length >= 2) {
                 if (type == 'user') {
-                    data = await Betools.manage.queryUserData(searchkey, data);
+                    data = await this.queryUserData(searchkey, data);
                     list.concat(data);
                 }
                 if (type == 'company') {
-                    data = await Betools.manage.queryCompanyData(searchkey, data);
+                    data = await this.queryCompanyData(searchkey, data);
                     list.concat(data);
                 }
                 if (type == 'company_ic') {
-                    data = await Betools.manage.queryCompanyICData(searchkey, data);
+                    data = await this.queryCompanyICData(searchkey, data);
                     list.concat(data);
                 }
             }
@@ -1316,8 +1318,8 @@ const manage = {
      */
     async commonStockSearch(data, value, key, fieldKey, state) {
         const searchkey = value[key];
-        data = await Betools.manage.queryUserData(searchkey, []);
-        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        data = await this.queryUserData(searchkey, []);
+        state.tag['show' + this.prefixUpperCase(fieldKey)] = true;
         state.tag.showKey = key;
         state[fieldKey + 'Columns'] = data;
     },
@@ -1331,8 +1333,8 @@ const manage = {
      */
     async commonUserSearch(data, value, key, fieldKey, state) {
         const searchkey = value[key];
-        data = await Betools.manage.queryUserData(searchkey, []);
-        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        data = await this.queryUserData(searchkey, []);
+        state.tag['show' + this.prefixUpperCase(fieldKey)] = true;
         state.tag.showKey = key;
         state[fieldKey + 'Columns'] = data;
     },
@@ -1346,8 +1348,8 @@ const manage = {
      */
     async commonCompanySearch(data, value, key, fieldKey, state) {
         const searchkey = value[key];
-        data = await Betools.manage.queryCompanyData(searchkey, []);
-        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        data = await this.queryCompanyData(searchkey, []);
+        state.tag['show' + this.prefixUpperCase(fieldKey)] = true;
         state.tag.showKey = key;
         state[fieldKey + 'Columns'] = data;
     },
@@ -1362,13 +1364,13 @@ const manage = {
     async commonDataSearch(data, value, key, fieldKey, state, type = 'company') {
         const searchkey = value[key];
         if (type == 'company') {
-            data = await Betools.manage.queryCompanyData(searchkey, []);
+            data = await this.queryCompanyData(searchkey, []);
         } else if (type == 'user') {
-            data = await Betools.manage.queryUserData(searchkey, []);
+            data = await this.queryUserData(searchkey, []);
         } else if (type == 'company_ic') {
-            data = await Betools.manage.queryCompanyICData(searchkey, []);
+            data = await this.queryCompanyICData(searchkey, []);
         }
-        state.tag['show' + Betools.manage.prefixUpperCase(fieldKey)] = true;
+        state.tag['show' + this.prefixUpperCase(fieldKey)] = true;
         state.tag.showKey = key;
         state[fieldKey + 'Columns'] = data;
     },
@@ -1384,18 +1386,18 @@ const manage = {
 
         state.radio[key] = index;
 
-        if (value && !Betools.tools.isNull(value['lastname'])) {
+        if (value && !tools.isNull(value['lastname'])) {
             item[key.replace(/Name/g, '')] = item[key] = value['lastname']
-        } else if (value && !Betools.tools.isNull(value['name'])) {
+        } else if (value && !tools.isNull(value['name'])) {
             item[key.replace(/Name/g, '')] = item[key] = value['name']
         } else {
             item[key.replace(/Name/g, '')] = item[key] = value;
         }
-        state.tag['show' + Betools.manage.prefixUpperCase(key)] = false;
+        state.tag['show' + this.prefixUpperCase(key)] = false;
 
         if (key == 'companyName' && type == 'company') {
             //检查公司名是否已经存在 //校验公司名称,如果已经存在此公司名称，需要给出提示
-            const companyNameCount = await Betools.manage.queryTableFieldValueCount('bs_company_flow_data', 'companyName', state.item.companyName);
+            const companyNameCount = await this.queryTableFieldValueCount('bs_company_flow_data', 'companyName', state.item.companyName);
             if (companyNameCount && companyNameCount.length > 0 && companyNameCount[0]['no_of_rows'] > 0) {
                 Dialog.confirm({
                     title: '温馨提示',
@@ -1416,10 +1418,10 @@ const manage = {
      * @param {*} cacheKey 
      */
     async companySearch(data, key, time, curtime = new Date().getTime() / 1000, cacheKey = 'system_app_home_company_data', state) {
-        time = Betools.storage.getStore(`${cacheKey}_expire`) || 0;
-        data = Betools.storage.getStore(`${cacheKey}`);
+        time = storage.getStore(`${cacheKey}_expire`) || 0;
+        data = storage.getStore(`${cacheKey}`);
         //如果缓存中没有获取到数据，则直接查询服务器
-        if (Betools.tools.isNull(data) || data.length == 0) {
+        if (tools.isNull(data) || data.length == 0) {
             data = await companySearchData(data, key, cacheKey);
             console.log(`storage cache : ${curtime}`);
         }
@@ -1443,11 +1445,11 @@ const manage = {
      * @returns 
      */
     async companySearchData(data, key, cacheKey) {
-        data = await Betools.manage.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${key}~)&_sort=-id&_p=0&_size=30`); // 获取最近12个月的已用印记录
+        data = await this.queryTableData('bs_company_flow_data', `_where=(companyName,like,~${key}~)&_sort=-id&_p=0&_size=30`); // 获取最近12个月的已用印记录
         data.map(item => {
             item.establish_time = dayjs(item.establish_time).format('YYYY-MM-DD');
         });
-        Betools.storage.setStore(`${cacheKey}`, JSON.stringify(data), 3600 * 24 * 31);
+        storage.setStore(`${cacheKey}`, JSON.stringify(data), 3600 * 24 * 31);
         return data;
     },
 
@@ -1514,11 +1516,11 @@ const manage = {
         let managerNodes = [];
 
         // 获取用户信息
-        const userinfo = await Betools.storage.getStore('system_userinfo');
+        const userinfo = await storage.getStore('system_userinfo');
 
         const company = state.companyNameColumns.find((item) => { return item.name == state.item.companyName });
         elem = {
-            id: Betools.tools.queryUniqueID(),
+            id: tools.queryUniqueID(),
             baseID: company.id,
             ...state.item,
             ...state.director,
@@ -1535,7 +1537,7 @@ const manage = {
             try {
                 //第一步，执行数据校验
                 console.log(`第一步，执行数据校验`);
-                validResult = await Betools.manage.checkDataCompanyAdd(elem, 'company');
+                validResult = await this.checkDataCompanyAdd(elem, 'company');
 
                 //第二步，检查是否有股东信息，如果有股东、董监高信息，则需要提交股东、董监高信息
                 console.log(`第二步，检查是否有股东信息，如果有股东、董监高信息，则需要提交股东、董监高信息`);
@@ -1546,7 +1548,7 @@ const manage = {
                         if (state.stock && state.stock['shareholder' + i]) {
                             //设置股权关系，即股东A 持有 公司B 多少比例 股权
                             const ratio = {
-                                    id: Betools.tools.queryUniqueID(),
+                                    id: tools.queryUniqueID(),
                                     from_id: state.stock['shareholder' + i],
                                     to_id: company.id,
                                     from_company: state.stock['shareholder' + i],
@@ -1556,7 +1558,7 @@ const manage = {
                                 }
                                 //设置stock信息，即公司A拥有股东B
                             const element = {
-                                id: Betools.tools.queryUniqueID(),
+                                id: tools.queryUniqueID(),
                                 pid: elem.id,
                                 baseID: company.id,
                                 shareholder: state.stock['shareholder' + i],
@@ -1578,7 +1580,7 @@ const manage = {
                     //设置stock信息，即公司A拥有董监高B //类型 100 股东 200 董事长 300 董事 400 执行董事 500 总经理 600 监事会主席 700 监事 800 法人代表
                     for (let name in state.director) {
                         const element = {
-                            id: Betools.tools.queryUniqueID(),
+                            id: tools.queryUniqueID(),
                             pid: elem.id,
                             baseID: company.id,
                             managerName: state.director[name],
@@ -1602,8 +1604,8 @@ const manage = {
 
                 //第三步，向表单提交form对象数据
                 console.log(`第三步，向表单提交form对象数据`);
-                result = await Betools.manage.multiTableData('bs_dynamic', multiElement);
-                await Betools.tools.sleep(Math.random() * 10);
+                result = await this.multiTableData('bs_dynamic', multiElement);
+                await tools.sleep(Math.random() * 10);
 
                 //第四步，如果返回信息成功，则提示用户申请成功
                 if (result.protocol41 == true && result.affectedRows > 0) {
@@ -1633,7 +1635,7 @@ const manage = {
         if (state.step == 'one') {
             //此次校验，公司基础信息是否填写完整
             const invalidKeys = checkValid(state.item);
-            if (Betools.tools.isNull(invalidKeys)) {
+            if (tools.isNull(invalidKeys)) {
                 state.step = 'two'
             } else {
                 Dialog.confirm({
@@ -1644,7 +1646,7 @@ const manage = {
         } else if (state.step == 'two') {
             //此次校验，公司的董事信息是否填写完整
             const invalidKeys = checkValid(state.director);
-            if (Betools.tools.isNull(invalidKeys)) {
+            if (tools.isNull(invalidKeys)) {
                 state.step = 'three'
             } else {
                 Dialog.confirm({
@@ -1654,7 +1656,7 @@ const manage = {
             }
         } else if (state.step == 'three') {
             const elem = {
-                id: Betools.tools.queryUniqueID(),
+                id: tools.queryUniqueID(),
                 ...state.item,
                 ...state.director
             };
@@ -1701,8 +1703,8 @@ const manage = {
      * 获取城市数据
      */
     async queryCity(data = null) {
-        data = await Betools.storage.getStore(`system_city_data`);
-        if (Betools.tools.isNull(data) || data.length == 0) {
+        data = await storage.getStore(`system_city_data`);
+        if (tools.isNull(data) || data.length == 0) {
             const options = [
                 { "text": "安徽省", "value": "安徽省", "children": [{ "text": "安庆市", "children": [{ "text": "大观区", "value": "大观区" }, { "text": "怀宁县", "value": "怀宁县" }, { "text": "潜山市", "value": "潜山市" }, { "text": "宿松县", "value": "宿松县" }, { "text": "太湖县", "value": "太湖县" }, { "text": "桐城市", "value": "桐城市" }, { "text": "望江县", "value": "望江县" }, { "text": "迎江区", "value": "迎江区" }, { "text": "宜秀区", "value": "宜秀区" }, { "text": "岳西县", "value": "岳西县" }], "value": "安庆市" }, { "text": "蚌埠市", "children": [{ "text": "蚌山区", "value": "蚌山区" }, { "text": "固镇县", "value": "固镇县" }, { "text": "淮上区", "value": "淮上区" }, { "text": "怀远县", "value": "怀远县" }, { "text": "龙子湖区", "value": "龙子湖区" }, { "text": "五河县", "value": "五河县" }, { "text": "禹会区", "value": "禹会区" }], "value": "蚌埠市" }, { "text": "亳州市", "children": [{ "text": "利辛县", "value": "利辛县" }, { "text": "蒙城县", "value": "蒙城县" }, { "text": "谯城区", "value": "谯城区" }, { "text": "涡阳县", "value": "涡阳县" }], "value": "亳州市" }, { "text": "池州市", "children": [{ "text": "东至县", "value": "东至县" }, { "text": "贵池区", "value": "贵池区" }, { "text": "青阳县", "value": "青阳县" }, { "text": "石台县", "value": "石台县" }], "value": "池州市" }, { "text": "滁州市", "children": [{ "text": "定远县", "value": "定远县" }, { "text": "凤阳县", "value": "凤阳县" }, { "text": "来安县", "value": "来安县" }, { "text": "琅琊区", "value": "琅琊区" }, { "text": "明光市", "value": "明光市" }, { "text": "南谯区", "value": "南谯区" }, { "text": "全椒县", "value": "全椒县" }, { "text": "天长市", "value": "天长市" }], "value": "滁州市" }, { "text": "阜阳市", "children": [{ "text": "阜南县", "value": "阜南县" }, { "text": "界首市", "value": "界首市" }, { "text": "临泉县", "value": "临泉县" }, { "text": "太和县", "value": "太和县" }, { "text": "颍东区", "value": "颍东区" }, { "text": "颍泉区", "value": "颍泉区" }, { "text": "颍上县", "value": "颍上县" }, { "text": "颍州区", "value": "颍州区" }], "value": "阜阳市" }, { "text": "合肥市", "children": [{ "text": "包河区", "value": "包河区" }, { "text": "长丰县", "value": "长丰县" }, { "text": "巢湖市", "value": "巢湖市" }, { "text": "肥东县", "value": "肥东县" }, { "text": "肥西县", "value": "肥西县" }, { "text": "庐江县", "value": "庐江县" }, { "text": "庐阳区", "value": "庐阳区" }, { "text": "蜀山区", "value": "蜀山区" }, { "text": "瑶海区", "value": "瑶海区" }], "value": "合肥市" }, { "text": "淮北市", "children": [{ "text": "杜集区", "value": "杜集区" }, { "text": "烈山区", "value": "烈山区" }, { "text": "濉溪县", "value": "濉溪县" }, { "text": "相山区", "value": "相山区" }], "value": "淮北市" }, { "text": "淮南市", "children": [{ "text": "八公山区", "value": "八公山区" }, { "text": "大通区", "value": "大通区" }, { "text": "凤台县", "value": "凤台县" }, { "text": "潘集区", "value": "潘集区" }, { "text": "寿县", "value": "寿县" }, { "text": "田家庵区", "value": "田家庵区" }, { "text": "谢家集区", "value": "谢家集区" }], "value": "淮南市" }, { "text": "黄山市", "children": [{ "text": "黄山区", "value": "黄山区" }, { "text": "徽州区", "value": "徽州区" }, { "text": "祁门县", "value": "祁门县" }, { "text": "屯溪区", "value": "屯溪区" }, { "text": "歙县", "value": "歙县" }, { "text": "休宁县", "value": "休宁县" }, { "text": "黟县", "value": "黟县" }], "value": "黄山市" }, { "text": "六安市", "children": [{ "text": "霍邱县", "value": "霍邱县" }, { "text": "霍山县", "value": "霍山县" }, { "text": "金安区", "value": "金安区" }, { "text": "金寨县", "value": "金寨县" }, { "text": "舒城县", "value": "舒城县" }, { "text": "叶集区", "value": "叶集区" }, { "text": "裕安区", "value": "裕安区" }], "value": "六安市" }, { "text": "马鞍山市", "children": [{ "text": "博望区", "value": "博望区" }, { "text": "当涂县", "value": "当涂县" }, { "text": "含山县", "value": "含山县" }, { "text": "和县", "value": "和县" }, { "text": "花山区", "value": "花山区" }, { "text": "雨山区", "value": "雨山区" }], "value": "马鞍山市" }, { "text": "宿州市", "children": [{ "text": "砀山县", "value": "砀山县" }, { "text": "灵璧县", "value": "灵璧县" }, { "text": "埇桥区", "value": "埇桥区" }, { "text": "泗县", "value": "泗县" }, { "text": "萧县", "value": "萧县" }], "value": "宿州市" }, { "text": "铜陵市", "children": [{ "text": "枞阳县", "value": "枞阳县" }, { "text": "郊区", "value": "郊区" }, { "text": "铜官区", "value": "铜官区" }, { "text": "义安区", "value": "义安区" }], "value": "铜陵市" }, { "text": "芜湖市", "children": [{ "text": "繁昌县", "value": "繁昌县" }, { "text": "镜湖区", "value": "镜湖区" }, { "text": "南陵县", "value": "南陵县" }, { "text": "鸠江区", "value": "鸠江区" }, { "text": "三山区", "value": "三山区" }, { "text": "芜湖县", "value": "芜湖县" }, { "text": "无为县", "value": "无为县" }, { "text": "弋江区", "value": "弋江区" }], "value": "芜湖市" }, { "text": "宣城市", "children": [{ "text": "广德县", "value": "广德县" }, { "text": "旌德县", "value": "旌德县" }, { "text": "泾县", "value": "泾县" }, { "text": "绩溪县", "value": "绩溪县" }, { "text": "郎溪县", "value": "郎溪县" }, { "text": "宁国市", "value": "宁国市" }, { "text": "宣州区", "value": "宣州区" }], "value": "宣城市" }] },
                 { "text": "澳门特别行政区", "value": "澳门特别行政区", "children": [{ "text": "澳门城区", "children": [{ "text": "大堂区", "value": "大堂区" }, { "text": "风顺堂区", "value": "风顺堂区" }, { "text": "花地玛堂区", "value": "花地玛堂区" }, { "text": "花王堂区", "value": "花王堂区" }, { "text": "嘉模堂区", "value": "嘉模堂区" }, { "text": "路凼填海区", "value": "路凼填海区" }, { "text": "圣方济各堂区", "value": "圣方济各堂区" }, { "text": "望德堂区", "value": "望德堂区" }], "value": "澳门城区" }] }, { "text": "北京市", "value": "北京市", "children": [{ "text": "北京城区", "children": [{ "text": "昌平区", "value": "昌平区" }, { "text": "朝阳区", "value": "朝阳区" }, { "text": "大兴区", "value": "大兴区" }, { "text": "东城区", "value": "东城区" }, { "text": "房山区", "value": "房山区" }, { "text": "丰台区", "value": "丰台区" }, { "text": "海淀区", "value": "海淀区" }, { "text": "怀柔区", "value": "怀柔区" }, { "text": "门头沟区", "value": "门头沟区" }, { "text": "密云区", "value": "密云区" }, { "text": "平谷区", "value": "平谷区" }, { "text": "石景山区", "value": "石景山区" }, { "text": "顺义区", "value": "顺义区" }, { "text": "通州区", "value": "通州区" }, { "text": "西城区", "value": "西城区" }, { "text": "延庆区", "value": "延庆区" }], "value": "北京城区" }] }, { "text": "重庆市", "value": "重庆市", "children": [{ "text": "重庆城区", "children": [{ "text": "巴南区", "value": "巴南区" }, { "text": "北碚区", "value": "北碚区" }, { "text": "璧山区", "value": "璧山区" }, { "text": "长寿区", "value": "长寿区" }, { "text": "大渡口区", "value": "大渡口区" }, { "text": "大足区", "value": "大足区" }, { "text": "涪陵区", "value": "涪陵区" }, { "text": "合川区", "value": "合川区" }, { "text": "江北区", "value": "江北区" }, { "text": "江津区", "value": "江津区" }, { "text": "九龙坡区", "value": "九龙坡区" }, { "text": "开州区", "value": "开州区" }, { "text": "梁平区", "value": "梁平区" }, { "text": "南岸区", "value": "南岸区" }, { "text": "南川区", "value": "南川区" }, { "text": "黔江区", "value": "黔江区" }, { "text": "綦江区", "value": "綦江区" }, { "text": "荣昌区", "value": "荣昌区" }, { "text": "沙坪坝区", "value": "沙坪坝区" }, { "text": "铜梁区", "value": "铜梁区" }, { "text": "潼南区", "value": "潼南区" }, { "text": "万州区", "value": "万州区" }, { "text": "武隆区", "value": "武隆区" }, { "text": "永川区", "value": "永川区" }, { "text": "渝北区", "value": "渝北区" }, { "text": "渝中区", "value": "渝中区" }], "value": "重庆城区" }, { "text": "重庆郊县", "children": [{ "text": "城口县", "value": "城口县" }, { "text": "垫江县", "value": "垫江县" }, { "text": "丰都县", "value": "丰都县" }, { "text": "奉节县", "value": "奉节县" }, { "text": "彭水苗族土家族自治县", "value": "彭水苗族土家族自治县" }, { "text": "石柱土家族自治县", "value": "石柱土家族自治县" }, { "text": "巫山县", "value": "巫山县" }, { "text": "巫溪县", "value": "巫溪县" }, { "text": "秀山土家族苗族自治县", "value": "秀山土家族苗族自治县" }, { "text": "酉阳土家族苗族自治县", "value": "酉阳土家族苗族自治县" }, { "text": "云阳县", "value": "云阳县" }, { "text": "忠县", "value": "忠县" }], "value": "重庆郊县" }] },
@@ -1764,7 +1766,7 @@ const manage = {
                 { "text": "云南省", "value": "云南省", "children": [{ "text": "保山市", "children": [{ "text": "昌宁县", "value": "昌宁县" }, { "text": "龙陵县", "value": "龙陵县" }, { "text": "隆阳区", "value": "隆阳区" }, { "text": "施甸县", "value": "施甸县" }, { "text": "腾冲市", "value": "腾冲市" }], "value": "保山市" }, { "text": "楚雄彝族自治州", "children": [{ "text": "楚雄市", "value": "楚雄市" }, { "text": "大姚县", "value": "大姚县" }, { "text": "禄丰县", "value": "禄丰县" }, { "text": "牟定县", "value": "牟定县" }, { "text": "南华县", "value": "南华县" }, { "text": "双柏县", "value": "双柏县" }, { "text": "武定县", "value": "武定县" }, { "text": "姚安县", "value": "姚安县" }, { "text": "永仁县", "value": "永仁县" }, { "text": "元谋县", "value": "元谋县" }], "value": "楚雄彝族自治州" }, { "text": "大理白族自治州", "children": [{ "text": "宾川县", "value": "宾川县" }, { "text": "大理市", "value": "大理市" }, { "text": "洱源县", "value": "洱源县" }, { "text": "鹤庆县", "value": "鹤庆县" }, { "text": "剑川县", "value": "剑川县" }, { "text": "弥渡县", "value": "弥渡县" }, { "text": "南涧彝族自治县", "value": "南涧彝族自治县" }, { "text": "巍山彝族回族自治县", "value": "巍山彝族回族自治县" }, { "text": "祥云县", "value": "祥云县" }, { "text": "漾濞彝族自治县", "value": "漾濞彝族自治县" }, { "text": "永平县", "value": "永平县" }, { "text": "云龙县", "value": "云龙县" }], "value": "大理白族自治州" }, { "text": "德宏傣族景颇族自治州", "children": [{ "text": "梁河县", "value": "梁河县" }, { "text": "陇川县", "value": "陇川县" }, { "text": "芒市", "value": "芒市" }, { "text": "瑞丽市", "value": "瑞丽市" }, { "text": "盈江县", "value": "盈江县" }], "value": "德宏傣族景颇族自治州" }, { "text": "迪庆藏族自治州", "children": [{ "text": "德钦县", "value": "德钦县" }, { "text": "维西傈僳族自治县", "value": "维西傈僳族自治县" }, { "text": "香格里拉市", "value": "香格里拉市" }], "value": "迪庆藏族自治州" }, { "text": "红河哈尼族彝族自治州", "children": [{ "text": "个旧市", "value": "个旧市" }, { "text": "河口瑶族自治县", "value": "河口瑶族自治县" }, { "text": "红河县", "value": "红河县" }, { "text": "建水县", "value": "建水县" }, { "text": "金平苗族瑶族傣族自治县", "value": "金平苗族瑶族傣族自治县" }, { "text": "开远市", "value": "开远市" }, { "text": "泸西县", "value": "泸西县" }, { "text": "绿春县", "value": "绿春县" }, { "text": "蒙自市", "value": "蒙自市" }, { "text": "弥勒市", "value": "弥勒市" }, { "text": "屏边苗族自治县", "value": "屏边苗族自治县" }, { "text": "石屏县", "value": "石屏县" }, { "text": "元阳县", "value": "元阳县" }], "value": "红河哈尼族彝族自治州" }, { "text": "昆明市", "children": [{ "text": "安宁市", "value": "安宁市" }, { "text": "呈贡区", "value": "呈贡区" }, { "text": "东川区", "value": "东川区" }, { "text": "富民县", "value": "富民县" }, { "text": "官渡区", "value": "官渡区" }, { "text": "晋宁区", "value": "晋宁区" }, { "text": "禄劝彝族苗族自治县", "value": "禄劝彝族苗族自治县" }, { "text": "盘龙区", "value": "盘龙区" }, { "text": "石林彝族自治县", "value": "石林彝族自治县" }, { "text": "嵩明县", "value": "嵩明县" }, { "text": "五华区", "value": "五华区" }, { "text": "西山区", "value": "西山区" }, { "text": "寻甸回族彝族自治县", "value": "寻甸回族彝族自治县" }, { "text": "宜良县", "value": "宜良县" }], "value": "昆明市" }, { "text": "丽江市", "children": [{ "text": "古城区", "value": "古城区" }, { "text": "华坪县", "value": "华坪县" }, { "text": "宁蒗彝族自治县", "value": "宁蒗彝族自治县" }, { "text": "永胜县", "value": "永胜县" }, { "text": "玉龙纳西族自治县", "value": "玉龙纳西族自治县" }], "value": "丽江市" }, { "text": "临沧市", "children": [{ "text": "沧源佤族自治县", "value": "沧源佤族自治县" }, { "text": "凤庆县", "value": "凤庆县" }, { "text": "耿马傣族佤族自治县", "value": "耿马傣族佤族自治县" }, { "text": "临翔区", "value": "临翔区" }, { "text": "双江拉祜族佤族布朗族傣族自治县", "value": "双江拉祜族佤族布朗族傣族自治县" }, { "text": "永德县", "value": "永德县" }, { "text": "云县", "value": "云县" }, { "text": "镇康县", "value": "镇康县" }], "value": "临沧市" }, { "text": "怒江傈僳族自治州", "children": [{ "text": "福贡县", "value": "福贡县" }, { "text": "贡山独龙族怒族自治县", "value": "贡山独龙族怒族自治县" }, { "text": "兰坪白族普米族自治县", "value": "兰坪白族普米族自治县" }, { "text": "泸水市", "value": "泸水市" }], "value": "怒江傈僳族自治州" }, { "text": "普洱市", "children": [{ "text": "江城哈尼族彝族自治县", "value": "江城哈尼族彝族自治县" }, { "text": "景东彝族自治县", "value": "景东彝族自治县" }, { "text": "景谷傣族彝族自治县", "value": "景谷傣族彝族自治县" }, { "text": "澜沧拉祜族自治县", "value": "澜沧拉祜族自治县" }, { "text": "孟连傣族拉祜族佤族自治县", "value": "孟连傣族拉祜族佤族自治县" }, { "text": "墨江哈尼族自治县", "value": "墨江哈尼族自治县" }, { "text": "宁洱哈尼族彝族自治县", "value": "宁洱哈尼族彝族自治县" }, { "text": "思茅区", "value": "思茅区" }, { "text": "西盟佤族自治县", "value": "西盟佤族自治县" }, { "text": "镇沅彝族哈尼族拉祜族自治县", "value": "镇沅彝族哈尼族拉祜族自治县" }], "value": "普洱市" }, { "text": "曲靖市", "children": [{ "text": "富源县", "value": "富源县" }, { "text": "会泽县", "value": "会泽县" }, { "text": "陆良县", "value": "陆良县" }, { "text": "罗平县", "value": "罗平县" }, { "text": "马龙区", "value": "马龙区" }, { "text": "麒麟区", "value": "麒麟区" }, { "text": "师宗县", "value": "师宗县" }, { "text": "宣威市", "value": "宣威市" }, { "text": "沾益区", "value": "沾益区" }], "value": "曲靖市" }, { "text": "文山壮族苗族自治州", "children": [{ "text": "富宁县", "value": "富宁县" }, { "text": "广南县", "value": "广南县" }, { "text": "马关县", "value": "马关县" }, { "text": "麻栗坡县", "value": "麻栗坡县" }, { "text": "丘北县", "value": "丘北县" }, { "text": "文山市", "value": "文山市" }, { "text": "西畴县", "value": "西畴县" }, { "text": "砚山县", "value": "砚山县" }], "value": "文山壮族苗族自治州" }, { "text": "西双版纳傣族自治州", "children": [{ "text": "景洪市", "value": "景洪市" }, { "text": "勐海县", "value": "勐海县" }, { "text": "勐腊县", "value": "勐腊县" }], "value": "西双版纳傣族自治州" }, { "text": "玉溪市", "children": [{ "text": "澄江县", "value": "澄江县" }, { "text": "峨山彝族自治县", "value": "峨山彝族自治县" }, { "text": "红塔区", "value": "红塔区" }, { "text": "华宁县", "value": "华宁县" }, { "text": "江川区", "value": "江川区" }, { "text": "通海县", "value": "通海县" }, { "text": "新平彝族傣族自治县", "value": "新平彝族傣族自治县" }, { "text": "易门县", "value": "易门县" }, { "text": "元江哈尼族彝族傣族自治县", "value": "元江哈尼族彝族傣族自治县" }], "value": "玉溪市" }, { "text": "昭通市", "children": [{ "text": "大关县", "value": "大关县" }, { "text": "鲁甸县", "value": "鲁甸县" }, { "text": "巧家县", "value": "巧家县" }, { "text": "水富市", "value": "水富市" }, { "text": "绥江县", "value": "绥江县" }, { "text": "威信县", "value": "威信县" }, { "text": "盐津县", "value": "盐津县" }, { "text": "彝良县", "value": "彝良县" }, { "text": "永善县", "value": "永善县" }, { "text": "昭阳区", "value": "昭阳区" }, { "text": "镇雄县", "value": "镇雄县" }], "value": "昭通市" }] },
                 { "text": "浙江省", "value": "浙江省", "children": [{ "text": "杭州市", "children": [{ "text": "滨江区", "value": "滨江区" }, { "text": "淳安县", "value": "淳安县" }, { "text": "富阳区", "value": "富阳区" }, { "text": "拱墅区", "value": "拱墅区" }, { "text": "建德市", "value": "建德市" }, { "text": "江干区", "value": "江干区" }, { "text": "临安区", "value": "临安区" }, { "text": "上城区", "value": "上城区" }, { "text": "桐庐县", "value": "桐庐县" }, { "text": "下城区", "value": "下城区" }, { "text": "萧山区", "value": "萧山区" }, { "text": "西湖区", "value": "西湖区" }, { "text": "余杭区", "value": "余杭区" }], "value": "杭州市" }, { "text": "湖州市", "children": [{ "text": "安吉县", "value": "安吉县" }, { "text": "长兴县", "value": "长兴县" }, { "text": "德清县", "value": "德清县" }, { "text": "南浔区", "value": "南浔区" }, { "text": "吴兴区", "value": "吴兴区" }], "value": "湖州市" }, { "text": "嘉兴市", "children": [{ "text": "海宁市", "value": "海宁市" }, { "text": "海盐县", "value": "海盐县" }, { "text": "嘉善县", "value": "嘉善县" }, { "text": "南湖区", "value": "南湖区" }, { "text": "平湖市", "value": "平湖市" }, { "text": "桐乡市", "value": "桐乡市" }, { "text": "秀洲区", "value": "秀洲区" }], "value": "嘉兴市" }, { "text": "金华市", "children": [{ "text": "东阳市", "value": "东阳市" }, { "text": "金东区", "value": "金东区" }, { "text": "兰溪市", "value": "兰溪市" }, { "text": "婺城区", "value": "婺城区" }, { "text": "磐安县", "value": "磐安县" }, { "text": "浦江县", "value": "浦江县" }, { "text": "武义县", "value": "武义县" }, { "text": "义乌市", "value": "义乌市" }, { "text": "永康市", "value": "永康市" }], "value": "金华市" }, { "text": "丽水市", "children": [{ "text": "景宁畲族自治县", "value": "景宁畲族自治县" }, { "text": "缙云县", "value": "缙云县" }, { "text": "莲都区", "value": "莲都区" }, { "text": "龙泉市", "value": "龙泉市" }, { "text": "青田县", "value": "青田县" }, { "text": "庆元县", "value": "庆元县" }, { "text": "松阳县", "value": "松阳县" }, { "text": "遂昌县", "value": "遂昌县" }, { "text": "云和县", "value": "云和县" }], "value": "丽水市" }, { "text": "宁波市", "children": [{ "text": "北仑区", "value": "北仑区" }, { "text": "慈溪市", "value": "慈溪市" }, { "text": "奉化区", "value": "奉化区" }, { "text": "海曙区", "value": "海曙区" }, { "text": "江北区", "value": "江北区" }, { "text": "宁海县", "value": "宁海县" }, { "text": "象山县", "value": "象山县" }, { "text": "鄞州区", "value": "鄞州区" }, { "text": "余姚市", "value": "余姚市" }, { "text": "镇海区", "value": "镇海区" }], "value": "宁波市" }, { "text": "衢州市", "children": [{ "text": "常山县", "value": "常山县" }, { "text": "江山市", "value": "江山市" }, { "text": "开化县", "value": "开化县" }, { "text": "柯城区", "value": "柯城区" }, { "text": "龙游县", "value": "龙游县" }, { "text": "衢江区", "value": "衢江区" }], "value": "衢州市" }, { "text": "绍兴市", "children": [{ "text": "嵊州市", "value": "嵊州市" }, { "text": "柯桥区", "value": "柯桥区" }, { "text": "上虞区", "value": "上虞区" }, { "text": "新昌县", "value": "新昌县" }, { "text": "越城区", "value": "越城区" }, { "text": "诸暨市", "value": "诸暨市" }], "value": "绍兴市" }, { "text": "台州市", "children": [{ "text": "黄岩区", "value": "黄岩区" }, { "text": "椒江区", "value": "椒江区" }, { "text": "临海市", "value": "临海市" }, { "text": "路桥区", "value": "路桥区" }, { "text": "三门县", "value": "三门县" }, { "text": "天台县", "value": "天台县" }, { "text": "温岭市", "value": "温岭市" }, { "text": "仙居县", "value": "仙居县" }, { "text": "玉环市", "value": "玉环市" }], "value": "台州市" }, { "text": "温州市", "children": [{ "text": "苍南县", "value": "苍南县" }, { "text": "洞头区", "value": "洞头区" }, { "text": "乐清市", "value": "乐清市" }, { "text": "龙湾区", "value": "龙湾区" }, { "text": "鹿城区", "value": "鹿城区" }, { "text": "瓯海区", "value": "瓯海区" }, { "text": "平阳县", "value": "平阳县" }, { "text": "瑞安市", "value": "瑞安市" }, { "text": "泰顺县", "value": "泰顺县" }, { "text": "文成县", "value": "文成县" }, { "text": "永嘉县", "value": "永嘉县" }], "value": "温州市" }, { "text": "舟山市", "children": [{ "text": "嵊泗县", "value": "嵊泗县" }, { "text": "岱山县", "value": "岱山县" }, { "text": "定海区", "value": "定海区" }, { "text": "普陀区", "value": "普陀区" }], "value": "舟山市" }] }
             ];
-            Betools.storage.setStore(`system_city_data`, JSON.stringify(options), 3600 * 24 * 365);
+            storage.setStore(`system_city_data`, JSON.stringify(options), 3600 * 24 * 365);
             return options;
         } else {
             return data;
@@ -1797,13 +1799,13 @@ const manage = {
     async lock(lockName = 'crontab_task', lockMS = 100000, lockOperator = '', time = null) {
         try {
             const ctime = time ? time : dayjs().format('YYYY-MM-DD HH:mm:ss');
-            const lockList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
+            const lockList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
             if (lockList && lockList.length > 0) {
                 return false; //已经上锁，不能执行操作
             } else { //未上锁，执行操作
-                const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
+                const tempList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
                 for (const item of tempList) {
-                    await Betools.manage.deleteTableData("bs_lock_info", item.id);
+                    await this.deleteTableData("bs_lock_info", item.id);
                 }
                 const elem = { //新增本条lock_name数据，上锁
                     id: tools.queryUniqueID(),
@@ -1814,7 +1816,7 @@ const manage = {
                     lock_username: lockOperator,
                     lock_flag: 'Y',
                 };
-                await Betools.manage.postTableData('bs_lock_info', elem);
+                await this.postTableData('bs_lock_info', elem);
                 return true;
             }
         } catch (error) {
@@ -1829,9 +1831,9 @@ const manage = {
      */
     async unlock(lockName = 'crontab_task') {
         try {
-            const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
+            const tempList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
             for (const item of tempList) {
-                await Betools.manage.deleteTableData("bs_lock_info", item.id);
+                await this.deleteTableData("bs_lock_info", item.id);
             }
             return true;
         } catch (error) {
@@ -1842,19 +1844,51 @@ const manage = {
     // 查询首页图片
     async queryImagesUrl(type = 'APP') {
         try {
-            const userinfo = await Betools.storage.getStore('system_userinfo'); //获取当前登录用户信息
+            const userinfo = await storage.getStore('system_userinfo'); //获取当前登录用户信息
             let whereSQL = null; //查询SQL
-            let images = await Betools.storage.getStore('system_app_image'); // 获取缓存中的图片
+            let images = await storage.getStore('system_app_image'); // 获取缓存中的图片
             if (!images) { // 如果存在图片数据，则直接使用图片数据
                 whereSQL = userinfo && userinfo.userid == 9058 ? `~and(create_by,eq,zhaoziyu)~and(bpm_status,in,4,5)~and(type,eq,${type})` : `~and(bpm_status,in,4,5)~and(create_by,in,admin,manager)~and(type,eq,${type})`;
-                images = await Betools.query.queryTableDataByWhereSQL('bs_home_pictures', `_where=(status,in,3)${whereSQL}&_fields=files&_sort=-id`);
+                images = await query.queryTableDataByWhereSQL('bs_home_pictures', `_where=(status,in,3)${whereSQL}&_fields=files&_sort=-id`);
                 images.map(item => { item.files = `https://upload.yunwisdom.club:30443/${item.files}`; });
-                Betools.storage.setStore('system_app_image', JSON.stringify(images), 3600 * 24 * 3);
+                storage.setStore('system_app_image', JSON.stringify(images), 3600 * 24 * 3);
             }
             return images;
         } catch (error) {
             console.log(error);
         }
+    },
+
+    /**
+     * 
+     * @param {*} fieldName 
+     * @param {*} item 
+     * @returns 
+     */
+    validField(fieldName, item) {
+        if (typeof tools == 'undefined') {
+            tools = { isNull: (a) => { return typeof a == 'undefined' || a == null || a == '' } };
+        }
+        if (typeof state == 'undefined' || tools.isNull(state)) {
+            window.state = { message: {} };
+        }
+        state.message[fieldName] = tools.isNull(item[fieldName]) ? `未填写${fieldName}信息，请填写后在进行提交申请！` : '';
+        return tools.isNull(state.message[fieldName]);
+    },
+
+    /**
+     * 
+     * @param {*} element 
+     * @param {*} keysElement 
+     * @returns 
+     */
+    checkValid(element, keysElement = element) {
+        const keys = Object.keys(keysElement);
+        console.log(`element key :${JSON.stringify(keysElement)}`, keys);
+        const invalidKey = keys.find(key => {
+            return !this.validField(key, element);
+        });
+        return invalidKey;
     },
 
     /**
@@ -1902,7 +1936,7 @@ const manage = {
                 origin_data: '',
             }
 
-            return await Betools.workflow.approveViewProcessLog(prLogHisNode);
+            return await workflow.approveViewProcessLog(prLogHisNode);
         } catch (error) {
             return false;
         }
