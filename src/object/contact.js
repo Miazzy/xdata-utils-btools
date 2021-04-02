@@ -1,4 +1,7 @@
+var { storage } = require('./storage');
+var { query } = require('./query');
 var { tools } = require('./tools');
+var { workflow } = require('./workflow');
 
 const ALL_USER_CACHE_KEY = 'ALL_USER_CACHE_KEY_V10';
 const ALL_USER_CACHE_WORK_KEY = 'ALL_USER_CACHE_WORK_KEY_V10';
@@ -8,20 +11,20 @@ const contact = {
     async queryDepartUserList() {
 
         //获取当前登录用户信息
-        const userinfo = await Betools.storage.getStore('system_userinfo');
-        const system_type = Betools.tools.queryUrlString('system_type', 'history');
+        const userinfo = await storage.getStore('system_userinfo');
+        const system_type = tools.queryUrlString('system_type', 'history');
 
         //如果没有获取到用户数据，则无法获取部门信息
-        if (Betools.tools.isNull(userinfo) || Betools.tools.isNull(userinfo.main_department)) {
+        if (tools.isNull(userinfo) || tools.isNull(userinfo.main_department)) {
             return { records: [], total: 0 };
         }
 
         //获取部门信息
         const departID = userinfo.main_department;
 
-        const cache = await Betools.storage.getStoreDB(ALL_USER_CACHE_DEPART_KEY + '#depart_id#' + departID);
+        const cache = await storage.getStoreDB(ALL_USER_CACHE_DEPART_KEY + '#depart_id#' + departID);
 
-        if (!Betools.tools.isNull(cache)) {
+        if (!tools.isNull(cache)) {
             return cache;
         }
 
@@ -58,7 +61,7 @@ const contact = {
                     console.log(error);
                 }
                 try {
-                    if (Betools.tools.isNull(item.avatar)) {
+                    if (tools.isNull(item.avatar)) {
                         item["headerUrl"] = "https://cdn.jsdelivr.net/gh/Miazzy/yunwisdoms@v8.0.0/images/icon-manage-16.png";
                     } else {
                         item['headerUrl'] = window._CONFIG['uploaxURL'] + '/' + item.avatar;
@@ -90,12 +93,12 @@ const contact = {
                 item['status'] = '1';
                 item['orgCode'] = '';
                 item['updateBy'] = '';
-                item['createTime'] = Betools.tools.formatDate(item['create_time'], 'yyyy-MM-dd');
+                item['createTime'] = tools.formatDate(item['create_time'], 'yyyy-MM-dd');
                 item['createBy'] = 'admin';
                 item['workNo'] = '';
                 item['delFlag'] = '0';
                 item['status_dictText'] = '';
-                item['birthday'] = Betools.tools.formatDate(item['birthday'], 'yyyy-MM-dd');
+                item['birthday'] = tools.formatDate(item['birthday'], 'yyyy-MM-dd');
                 item['updateTime'] = item['createTime'];
                 item['telephone'] = item['phone'];
                 item['activitiSync'] = '';
@@ -106,7 +109,7 @@ const contact = {
             result.records = res.body.userlist;
             result.total = res.body.userlist.length;
 
-            Betools.storage.setStoreDB(ALL_USER_CACHE_DEPART_KEY + '#depart_id#' + departID, result, 3600 * 24 * 3);
+            storage.setStoreDB(ALL_USER_CACHE_DEPART_KEY + '#depart_id#' + departID, result, 3600 * 24 * 3);
 
             return result;
 
@@ -121,9 +124,9 @@ const contact = {
         var queryURL = `${window.BECONFIG['restAPI']}/api/v3/employee`;
         var result = {};
 
-        const cache = await Betools.storage.getStoreDB(ALL_USER_CACHE_WORK_KEY);
+        const cache = await storage.getStoreDB(ALL_USER_CACHE_WORK_KEY);
 
-        if (!Betools.tools.isNull(cache)) {
+        if (!tools.isNull(cache)) {
             return cache;
         }
 
@@ -144,7 +147,7 @@ const contact = {
                     console.log(error);
                 }
                 try {
-                    if (Betools.tools.isNull(item.avatar)) {
+                    if (tools.isNull(item.avatar)) {
                         item["headerUrl"] = "https://cdn.jsdelivr.net/gh/Miazzy/yunwisdoms@v8.0.0/images/icon-manage-16.png";
                     } else {
                         item['headerUrl'] = window._CONFIG['uploaxURL'] + '/' + item.avatar;
@@ -176,12 +179,12 @@ const contact = {
                 item['status'] = '1';
                 item['orgCode'] = '';
                 item['updateBy'] = '';
-                item['createTime'] = Betools.tools.formatDate(item['create_time'], 'yyyy-MM-dd');
+                item['createTime'] = tools.formatDate(item['create_time'], 'yyyy-MM-dd');
                 item['createBy'] = 'admin';
                 item['workNo'] = '';
                 item['delFlag'] = '0';
                 item['status_dictText'] = '';
-                item['birthday'] = Betools.tools.formatDate(item['birthday'], 'yyyy-MM-dd');
+                item['birthday'] = tools.formatDate(item['birthday'], 'yyyy-MM-dd');
                 item['updateTime'] = item['createTime'];
                 item['telephone'] = item['phone'];
                 item['activitiSync'] = '';
@@ -192,7 +195,7 @@ const contact = {
             result.records = res.body;
             result.total = res.body.length;
 
-            Betools.storage.setStoreDB(ALL_USER_CACHE_WORK_KEY, result, 3600 * 24 * 3);
+            storage.setStoreDB(ALL_USER_CACHE_WORK_KEY, result, 3600 * 24 * 3);
 
             return result;
 
@@ -209,7 +212,7 @@ const contact = {
 
         //用户名称
         var whereFlag =
-            Betools.tools.deNull(params.username) == '' ?
+            tools.deNull(params.username) == '' ?
             '' :
             `_where=(username,like,~${params.username}~)~or(realname,like,~${params.username}~)&`;
 
@@ -240,7 +243,7 @@ const contact = {
                     console.log(error);
                 }
                 try {
-                    if (Betools.tools.isNull(item.avatar)) {
+                    if (tools.isNull(item.avatar)) {
                         item["headerUrl"] = "https://cdn.jsdelivr.net/gh/Miazzy/yunwisdoms@v8.0.0/images/icon-manage-16.png";
                     } else {
                         item['headerUrl'] = window._CONFIG['uploaxURL'] + '/' + item.avatar;
@@ -272,12 +275,12 @@ const contact = {
                 item['status'] = '1';
                 item['orgCode'] = '';
                 item['updateBy'] = '';
-                item['createTime'] = Betools.tools.formatDate(item['create_time'], 'yyyy-MM-dd');
+                item['createTime'] = tools.formatDate(item['create_time'], 'yyyy-MM-dd');
                 item['createBy'] = 'admin';
                 item['workNo'] = '';
                 item['delFlag'] = '0';
                 item['status_dictText'] = '';
-                item['birthday'] = Betools.tools.formatDate(item['birthday'], 'yyyy-MM-dd');
+                item['birthday'] = tools.formatDate(item['birthday'], 'yyyy-MM-dd');
                 item['updateTime'] = item['createTime'];
                 item['telephone'] = item['phone'];
                 item['activitiSync'] = '';
@@ -301,20 +304,20 @@ const contact = {
 
     async queryContacts() {
         //获取当前登录用户信息
-        const userinfo = await Betools.storage.getStore('system_userinfo');
+        const userinfo = await storage.getStore('system_userinfo');
 
         var all = [];
         var count = 0;
-        var cache = await Betools.storage.getStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department);
+        var cache = await storage.getStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department);
 
-        if (Betools.tools.isNull(cache) || cache.length <= 0) {
+        if (tools.isNull(cache) || cache.length <= 0) {
             let userlist = await queryDepartUserList();
             userlist = userlist.records;
             count = userlist.total;
-            if (!(Betools.tools.isNull(userlist) || userlist.length <= 0)) {
+            if (!(tools.isNull(userlist) || userlist.length <= 0)) {
                 all = [...all, ...userlist];
             }
-            Betools.storage.setStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department, all, 3600 * 24);
+            storage.setStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department, all, 3600 * 24);
         } else {
             all = cache;
         }
@@ -325,14 +328,14 @@ const contact = {
     async getUserInfo(wxid) {
 
         //获取当前登录用户信息
-        const userinfo = await Betools.storage.getStore('system_userinfo');
+        const userinfo = await storage.getStore('system_userinfo');
 
         if (!wxid || !userinfo) {
             return;
         } else {
 
             //从缓存中查询数据
-            var contacts = await Betools.storage.getStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department);
+            var contacts = await storage.getStoreDB(ALL_USER_CACHE_KEY + '#depart#' + userinfo.main_department);
             for (var index in contacts) {
                 if (contacts[index].wxid == wxid) {
                     return contacts[index]
@@ -351,7 +354,7 @@ const contact = {
 
         const key = `contacts_cache_wxid${wxid}`;
 
-        if (Betools.tools.isNull(wxid) || wxid.startsWith('wxid')) {
+        if (tools.isNull(wxid) || wxid.startsWith('wxid')) {
             return {};
         }
 
@@ -360,7 +363,7 @@ const contact = {
 
         try {
             //获取缓存中的数据
-            var cache = (await Betools.storage.getStoreDB(`contacts_cache_wxid${wxid}`)) || window.userMap.get(key);
+            var cache = (await storage.getStoreDB(`contacts_cache_wxid${wxid}`)) || window.userMap.get(key);
 
             //返回缓存值
             if (typeof cache != 'undefined' && cache != null && cache != '') {
@@ -371,7 +374,7 @@ const contact = {
 
             if (res.body != null) {
                 window.userMap.set(key, res.body);
-                await Betools.storage.setStoreDB(key, res.body, 3600 * 24);
+                await storage.setStoreDB(key, res.body, 3600 * 24);
             }
 
             return res.body;

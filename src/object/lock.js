@@ -1,4 +1,8 @@
+var { storage } = require('./storage');
+var { query } = require('./query');
 var { tools } = require('./tools');
+var { workflow } = require('./workflow');
+var { manage } = require('./manage');
 
 const lock = {
 
@@ -10,13 +14,13 @@ const lock = {
     async lock(lockName = 'crontab_task', lockMS = 100000, lockOperator = '', time = null) {
         try {
             const ctime = time ? time : dayjs().format('YYYY-MM-DD HH:mm:ss');
-            const lockList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
+            const lockList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})~and(status,eq,1)~and(expire_time,gt,${ctime})&_sort=-id`);
             if (lockList && lockList.length > 0) {
                 return false; //已经上锁，不能执行操作
             } else { //未上锁，执行操作
-                const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
+                const tempList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
                 for (const item of tempList) {
-                    await Betools.manage.deleteTableData("bs_lock_info", item.id);
+                    await manage.deleteTableData("bs_lock_info", item.id);
                 }
                 const elem = { //新增本条lock_name数据，上锁
                     id: tools.queryUniqueID(),
@@ -27,7 +31,7 @@ const lock = {
                     lock_username: lockOperator,
                     lock_flag: 'Y',
                 };
-                await Betools.manage.postTableData('bs_lock_info', elem);
+                await manage.postTableData('bs_lock_info', elem);
                 return true;
             }
         } catch (error) {
@@ -42,9 +46,9 @@ const lock = {
      */
     async unlock(lockName = 'crontab_task') {
         try {
-            const tempList = await Betools.query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
+            const tempList = await query.queryTableDataByWhereSQL('bs_lock_info', `_where=(lock_name,eq,${lockName})&_sort=-id`); //先查询对应lock_name的所有数据，删除
             for (const item of tempList) {
-                await Betools.manage.deleteTableData("bs_lock_info", item.id);
+                await manage.deleteTableData("bs_lock_info", item.id);
             }
             return true;
         } catch (error) {
